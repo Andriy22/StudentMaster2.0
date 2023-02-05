@@ -14,7 +14,7 @@ namespace backend.DAL.Implementation
         protected readonly DataContext _dbContext;
         protected readonly DbSet<T> _set;
 
-        public Repository(DbContext dbContext)
+        public Repository(DataContext dbContext)
         {
             _dbContext = dbContext;
             _set = _dbContext.Set<T>();

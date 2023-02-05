@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace backend.DAL.Entities
 {
-    public class Student : IdentityUser
+    public class User : IdentityUser
     {
         public string FirstName { get; set; }
         public string Name { get; set; }
@@ -15,6 +15,5 @@ namespace backend.DAL.Entities
         public DateTime Created { get; set; }
         public bool IsDeleted { get; set; }
         public Attachment Img { get; set; }
-
     }
 }

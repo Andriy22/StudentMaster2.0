@@ -10,5 +10,6 @@ namespace backend.BLL.Services.Interfaces
     public interface IAccountService
     {
         Task CreateAccountAsync(RegistrationDTO model);
+        Task<int> GenerateConfirmationCodeAsync(string email);
     }
 }

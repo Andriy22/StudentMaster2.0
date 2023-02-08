@@ -1,4 +1,5 @@
 using backend.API.Middleware;
+using backend.API.Services;
 using backend.BLL.Common.DTOs.Account;
 using backend.BLL.Common.Mappings;
 using backend.BLL.Services.Implementation;
@@ -66,6 +67,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
 
 var app = builder.Build();
 

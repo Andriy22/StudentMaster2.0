@@ -1,7 +1,9 @@
 ﻿using backend.BLL.Common.DTOs.Account;
 using backend.BLL.Common.Exceptions;
+using backend.BLL.Common.VMs.Email;
 using backend.BLL.Services.Interfaces;
 using backend.DAL.Entities;
+using backend.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,12 @@ namespace backend.BLL.Services.Implementation
     public class AccountService : IAccountService
     {
         private readonly UserManager<User> _userManager;
+        private readonly IRepository<ConfirmCode> _confirmCodeRepository;
 
-        public AccountService(UserManager<User> userManager)
+        public AccountService(UserManager<User> userManager, IRepository<ConfirmCode> confirmCodeRepository)
         {
             _userManager = userManager;
+            _confirmCodeRepository = confirmCodeRepository;
         }
 
         public async Task CreateAccountAsync(RegistrationDTO model)
@@ -46,6 +50,28 @@ namespace backend.BLL.Services.Implementation
                 await _userManager.DeleteAsync(user);
                 throw new CustomHttpException(result.Errors.FirstOrDefault().Description);
             }
+        }
+
+        public async Task<int> GenerateConfirmationCodeAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new CustomHttpException("User not found");
+            }
+
+            var code = new ConfirmCode
+            {
+                Code = 1111,
+                UserID = user.Id,
+                IsUsed = false,
+                CreationTime = DateTime.UtcNow,
+            };
+
+            _confirmCodeRepository.Add(code);
+
+            return code.Code;
         }
     }
 }

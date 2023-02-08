@@ -51,6 +51,7 @@ namespace backend.DAL
         public new DbSet<User> Users { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<ConfirmCode> ConfirmCodes { get; set; }
     }
 }
 

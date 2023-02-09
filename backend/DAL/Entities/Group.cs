@@ -1,32 +1,26 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace backend.DAL.Entities
 {
-    public class User : IdentityUser
+    public class Group
     {
-        public User()
+        public Group()
         {
             TeacherGroups = new HashSet<TeacherGroup>();
+            Students = new HashSet<User>();
             Subjects = new HashSet<Subject>();
         }
 
-        public string FirstName { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string LastName { get; set; }
-        public DateTime Created { get; set; }
         public bool IsDeleted { get; set; }
-        public Attachment Img { get; set; }
-
-        // student props
-        public Group Group { get; set; }
-
-        // teacher props
         public ICollection<TeacherGroup> TeacherGroups { get; set; }
+        public ICollection<User> Students { get; set;}
         public ICollection<Subject> Subjects { get; set; }
     }
 }

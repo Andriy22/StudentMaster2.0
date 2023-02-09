@@ -69,6 +69,7 @@ builder.Services.AddScoped<IJWTService, JWTService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
+builder.Services.AddScoped<IRandomService, RandomService>();
 
 var app = builder.Build();
 

@@ -10,8 +10,6 @@ namespace backend.DAL.Entities
     public class ConfirmCode
     {
         public int Id { get; set; }
-
-
         public string UserID { get; set; }
         [ForeignKey("UserID")]
         public User user { get; set; }

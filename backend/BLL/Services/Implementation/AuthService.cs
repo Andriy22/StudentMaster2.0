@@ -35,11 +35,21 @@ namespace backend.BLL.Services.Implementation
         {
             var user = await this._userManager.FindByEmailAsync(model.Email);
             if (user == null)
+            {
                 throw new CustomHttpException("User not found");
+            }
+
 
             var isLoggined = await this._userManager.CheckPasswordAsync(user, model.Password);
             if (!isLoggined)
+            {
                 throw new CustomHttpException("Password is wrong");
+            }
+            
+            if (!user.EmailConfirmed)
+            {
+                throw new CustomHttpException("Account not confirmed", System.Net.HttpStatusCode.Forbidden);
+            }
 
             var access_token = this._jWTService.CreateToken(user);
             var refresh_token = this._jWTService.CreateRefreshToken(user);

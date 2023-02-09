@@ -5,6 +5,7 @@ using backend.BLL.Services.Interfaces;
 using backend.DAL.Entities;
 using backend.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,45 @@ namespace backend.BLL.Services.Implementation
     {
         private readonly UserManager<User> _userManager;
         private readonly IRepository<ConfirmCode> _confirmCodeRepository;
+        private readonly IRandomService _randromService;
+        private readonly IRepository<User> _userRepository;
 
-        public AccountService(UserManager<User> userManager, IRepository<ConfirmCode> confirmCodeRepository)
+        public AccountService(UserManager<User> userManager, IRepository<ConfirmCode> confirmCodeRepository, IRandomService randromService, IRepository<User> userRepository)
         {
             _userManager = userManager;
             _confirmCodeRepository = confirmCodeRepository;
+            _randromService = randromService;
+            _userRepository = userRepository;
+        }
+
+        public async Task ConfirmAccountAsync(ConfirmAccountDTO model)
+        {
+            var code = (await _confirmCodeRepository.GetQueryable(x => x.Code == model.Code && x.IsUsed == false).Include(x => x.user).FirstOrDefaultAsync());
+
+            if (code == null)
+            {
+                throw new CustomHttpException("Code is invalid");
+            }
+
+            var user = code.user;
+
+            if (user == null)
+            {
+                throw new CustomHttpException("User is invalid");
+            }
+            user.EmailConfirmed = true;
+
+            var result = await _userManager.AddPasswordAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                _userRepository.Edit(user);
+                code.IsUsed = true;
+                _confirmCodeRepository.Edit(code);
+                return;
+            }
+
+            throw new CustomHttpException("We couldn't save your account!");
         }
 
         public async Task CreateAccountAsync(RegistrationDTO model)
@@ -36,7 +71,7 @@ namespace backend.BLL.Services.Implementation
                 Created = DateTime.UtcNow
             };
 
-            var result = await _userManager.CreateAsync(user, "5358254AaV");
+            var result = await _userManager.CreateAsync(user);
 
             if (!result.Succeeded)
             {
@@ -63,7 +98,7 @@ namespace backend.BLL.Services.Implementation
 
             var code = new ConfirmCode
             {
-                Code = 1111,
+                Code = _randromService.GetRandomNumber(10000000, 99999999),
                 UserID = user.Id,
                 IsUsed = false,
                 CreationTime = DateTime.UtcNow,

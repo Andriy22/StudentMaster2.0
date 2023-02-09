@@ -22,6 +22,21 @@ namespace backend.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("GroupSubject", b =>
+                {
+                    b.Property<int>("GroupsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupsId", "SubjectsId");
+
+                    b.HasIndex("SubjectsId");
+
+                    b.ToTable("GroupSubject");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -51,22 +66,22 @@ namespace backend.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3a8b6db2-6d18-4e05-a1d0-65e7637710b1",
-                            ConcurrencyStamp = "9c9f5714-846a-4d48-8995-48990842e250",
+                            Id = "7a639e42-1591-4830-9ec8-39e20b9fb0de",
+                            ConcurrencyStamp = "c5c8751b-a00c-4a0e-b713-225db6bfbad9",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "38ba12c9-c9fc-46b7-9314-90afa2cf6128",
-                            ConcurrencyStamp = "0ab5fec8-f1ba-4d1d-aee1-9567994f914a",
+                            Id = "03fca9b6-9471-4868-b365-13c56bc728d1",
+                            ConcurrencyStamp = "286f318a-6430-4e8f-85ac-8e6a6a4edc66",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8983ecc8-25d8-4e98-a120-d60896fe290e",
-                            ConcurrencyStamp = "b59f0ae9-760f-4ff8-a9ab-b4cb78ccfd65",
+                            Id = "5ffa1c4d-c585-4560-8066-b4aca4c57ccc",
+                            ConcurrencyStamp = "87245fc8-41af-4973-983d-f402fd872d2a",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         });
@@ -182,6 +197,21 @@ namespace backend.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SubjectUser", b =>
+                {
+                    b.Property<int>("SubjectsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TeachersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("SubjectsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("SubjectUser");
+                });
+
             modelBuilder.Entity("backend.DAL.Entities.Attachment", b =>
                 {
                     b.Property<int>("Id")
@@ -225,6 +255,67 @@ namespace backend.API.Migrations
                     b.ToTable("ConfirmCodes");
                 });
 
+            modelBuilder.Entity("backend.DAL.Entities.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("backend.DAL.Entities.RefreshToken", b =>
                 {
                     b.Property<string>("Id")
@@ -241,6 +332,40 @@ namespace backend.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.TeacherGroup", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("TeacherGroup");
                 });
 
             modelBuilder.Entity("backend.DAL.Entities.User", b =>
@@ -267,6 +392,9 @@ namespace backend.API.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ImgId")
                         .HasColumnType("int");
@@ -315,6 +443,8 @@ namespace backend.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.HasIndex("ImgId");
 
                     b.HasIndex("NormalizedEmail")
@@ -326,6 +456,37 @@ namespace backend.API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.WorkType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkTypes");
+                });
+
+            modelBuilder.Entity("GroupSubject", b =>
+                {
+                    b.HasOne("backend.DAL.Entities.Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.DAL.Entities.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -379,6 +540,21 @@ namespace backend.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SubjectUser", b =>
+                {
+                    b.HasOne("backend.DAL.Entities.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.DAL.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("backend.DAL.Entities.ConfirmCode", b =>
                 {
                     b.HasOne("backend.DAL.Entities.User", "user")
@@ -386,6 +562,33 @@ namespace backend.API.Migrations
                         .HasForeignKey("UserID");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.Grade", b =>
+                {
+                    b.HasOne("backend.DAL.Entities.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("backend.DAL.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.HasOne("backend.DAL.Entities.User", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId");
+
+                    b.HasOne("backend.DAL.Entities.WorkType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("backend.DAL.Entities.RefreshToken", b =>
@@ -399,13 +602,50 @@ namespace backend.API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.DAL.Entities.TeacherGroup", b =>
+                {
+                    b.HasOne("backend.DAL.Entities.Group", "Group")
+                        .WithMany("TeacherGroups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.DAL.Entities.User", "User")
+                        .WithMany("TeacherGroups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.DAL.Entities.User", b =>
                 {
+                    b.HasOne("backend.DAL.Entities.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId");
+
                     b.HasOne("backend.DAL.Entities.Attachment", "Img")
                         .WithMany()
                         .HasForeignKey("ImgId");
 
+                    b.Navigation("Group");
+
                     b.Navigation("Img");
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.Group", b =>
+                {
+                    b.Navigation("Students");
+
+                    b.Navigation("TeacherGroups");
+                });
+
+            modelBuilder.Entity("backend.DAL.Entities.User", b =>
+                {
+                    b.Navigation("TeacherGroups");
                 });
 #pragma warning restore 612, 618
         }

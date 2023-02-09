@@ -2,7 +2,6 @@
 using backend.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
 using System;
 using backend.BLL.Common.VMs.Email;
 
@@ -23,6 +22,14 @@ namespace backend.API.Controllers
             _accountService = accountService;
         }
 
+        [HttpPost("confirm-account")]
+        public async Task<IActionResult> ConfirmAccountAsync(ConfirmAccountDTO model)
+        {
+            await _accountService.ConfirmAccountAsync(model);
+
+            return Ok();
+        }
+
         [HttpPost("create-account")]
         public async Task<IActionResult> CreateAccountAsync(RegistrationDTO model)
         {
@@ -30,7 +37,7 @@ namespace backend.API.Controllers
 
             var code = await _accountService.GenerateConfirmationCodeAsync(model.Email);
 
-            await _emailService.SendEmailAsync(model.Email, "WoT-STATS Email Confirmation", await _razorRenderService.RenderEmailConfirmationAsync(new ConfirmCodeVM
+            await _emailService.SendEmailAsync(model.Email, "StudentMaster Account Confirmation", await _razorRenderService.RenderEmailConfirmationAsync(new ConfirmCodeVM
             {
                 Code = code,
             }));

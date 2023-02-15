@@ -23,17 +23,20 @@ namespace backend.BLL.Services.Implementation
         private readonly IJWTService _jWTService;
         private readonly IRepository<RefreshToken> _refreshTokens;
         private readonly IConfiguration _configuration;
-        public AuthService(UserManager<User> userManager, IJWTService jWTService, IRepository<RefreshToken> refreshTokens, IConfiguration configuration)
+        private readonly IRepository<User> _userRepos;
+
+        public AuthService(UserManager<User> userManager, IJWTService jWTService, IRepository<RefreshToken> refreshTokens, IConfiguration configuration, IRepository<User> userRepos)
         {
             _userManager = userManager;
             _jWTService = jWTService;
             _refreshTokens = refreshTokens;
             _configuration = configuration;
+            _userRepos = userRepos;
         }
 
         public async Task<AuthorizationVM> AuthorizationAsync(AuthorizationDTO model)
         {
-            var user = await this._userManager.FindByEmailAsync(model.Email);
+            var user = await _userRepos.GetQueryable(x=>x.Email.ToLower() == model.Email.ToLower()).Include(x=>x.Img).FirstOrDefaultAsync();
             if (user == null)
             {
                 throw new CustomHttpException("User not found");
@@ -61,13 +64,15 @@ namespace backend.BLL.Services.Implementation
                 RefreshToken = refresh_token,
                 Roles = (await _userManager.GetRolesAsync(user)).ToList(),
                 UserId = user.Id,
+                AvatarSrc = user.Img.Path,
                 UserName = user.UserName,
+                FullName = $"{user.FirstName} {user.Name} {user.LastName}"
             };
         }
 
         public async Task<AuthorizationVM> RefreshAsync(RefreshTokenDTO model)
         {
-            var token = await _refreshTokens.GetQueryable(x => x.Token == model.RefreshToken).Include(x => x.User).FirstOrDefaultAsync();
+            var token = await _refreshTokens.GetQueryable(x => x.Token == model.RefreshToken).Include(x => x.User).ThenInclude(x=>x.Img).FirstOrDefaultAsync();
             var refresh_time = _configuration.GetSection("JWT").GetValue<int>("REFRESH_LIFETIME");
 
             if (token == null)
@@ -89,7 +94,9 @@ namespace backend.BLL.Services.Implementation
                 RefreshToken = _jWTService.CreateRefreshToken(token.User),
                 Roles = (await _userManager.GetRolesAsync(token.User)).ToList(),
                 UserId = token.User.Id,
+                AvatarSrc = token.User.Img.Path,
                 UserName = token.User.UserName,
+                FullName = $"{token.User.FirstName} {token.User.Name} {token.User.LastName}"
             };
         }
     }

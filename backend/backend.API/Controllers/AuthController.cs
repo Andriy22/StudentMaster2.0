@@ -19,6 +19,7 @@ namespace backend.API.Controllers
         [HttpPost("authorization")]
         public async Task<IActionResult> AuthorizationAsync(AuthorizationDTO model)
         {
+            Thread.Sleep(2000);
             return Ok(await _authService.AuthorizationAsync(model));
         }
 

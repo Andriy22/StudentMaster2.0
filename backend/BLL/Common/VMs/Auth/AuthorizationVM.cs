@@ -12,6 +12,8 @@ namespace backend.BLL.Common.VMs.Auth
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
         public string UserName { get; set; }
+        public string FullName { get; set; }
+        public string AvatarSrc { get; set; }
         public List<string> Roles { get; set; }
 
         public AuthorizationVM()

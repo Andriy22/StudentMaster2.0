@@ -1,9 +1,11 @@
-﻿using backend.BLL.Common.DTOs.Account;
+﻿using backend.BLL.Common.Consts;
+using backend.BLL.Common.DTOs.Account;
 using backend.BLL.Common.Exceptions;
 using backend.BLL.Common.VMs.Email;
 using backend.BLL.Services.Interfaces;
 using backend.DAL.Entities;
 using backend.DAL.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,13 +22,54 @@ namespace backend.BLL.Services.Implementation
         private readonly IRepository<ConfirmCode> _confirmCodeRepository;
         private readonly IRandomService _randromService;
         private readonly IRepository<User> _userRepository;
+        private readonly IFileService _fileService;
 
-        public AccountService(UserManager<User> userManager, IRepository<ConfirmCode> confirmCodeRepository, IRandomService randromService, IRepository<User> userRepository)
+        public AccountService(UserManager<User> userManager, IRepository<ConfirmCode> confirmCodeRepository, IRandomService randromService, IRepository<User> userRepository, IFileService fileService)
         {
             _userManager = userManager;
             _confirmCodeRepository = confirmCodeRepository;
             _randromService = randromService;
             _userRepository = userRepository;
+            _fileService = fileService;
+        }
+
+        public async Task<string> ChangeAvatarAsync(IFormFile file, string uid)
+        {
+
+            var user = await _userManager.FindByIdAsync(uid);
+
+            if (user == null)
+            {
+                throw new CustomHttpException("User is invalid");
+            }
+
+            var path = await _fileService.SaveFile(file, FileConstants.AvatarFolder);
+
+            user.Img = new Attachment
+            {
+                Path = path
+            };
+
+            _userRepository.Edit(user);
+
+            return path;
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordDTO model, string uid)
+        {
+            var user = await _userManager.FindByIdAsync(uid);
+
+            if (user == null)
+            {
+                throw new CustomHttpException("User is invalid");
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new CustomHttpException($"Failed to change password: {result}");
+            }
         }
 
         public async Task ConfirmAccountAsync(ConfirmAccountDTO model)
@@ -107,6 +150,30 @@ namespace backend.BLL.Services.Implementation
             _confirmCodeRepository.Add(code);
 
             return code.Code;
+        }
+
+        public async Task<string> GetAvatar(string uid)
+        {
+            var user = await _userRepository.GetQueryable(x=>x.Id.ToLower() == uid.ToLower()).Include(x=>x.Img).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new CustomHttpException("User not found");
+            }
+
+            return user.Img.Path;
+        }
+
+        public async Task<bool> IsAccountConfirmedAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new CustomHttpException("User not found");
+            }
+
+            return user.EmailConfirmed;
         }
     }
 }

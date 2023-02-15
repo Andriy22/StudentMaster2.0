@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using backend.BLL.Common.VMs.Email;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.API.Controllers
 {
@@ -28,6 +29,35 @@ namespace backend.API.Controllers
             await _accountService.ConfirmAccountAsync(model);
 
             return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO model)
+        {
+            await _accountService.ChangePasswordAsync(model, User.Identity.Name);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("change-avatar")]
+        public async Task<IActionResult> ChangeAvatarAsync([FromForm] IFormFile file)
+        {
+            return Ok(await _accountService.ChangeAvatarAsync(file, User.Identity.Name));
+        }
+
+        [Authorize]
+        [HttpGet("get-avatar")]
+        public async Task<IActionResult> GetAvatarAsync()
+        {
+            return Ok(await _accountService.GetAvatar(User.Identity.Name));
+        }
+
+        [HttpGet("check-account-confirmation/{email}")]
+        public async Task<IActionResult> CheckAccountInformationAsync(string email) 
+        {
+            Thread.Sleep(2000);
+            return Ok(await _accountService.IsAccountConfirmedAsync(email));
         }
 
         [HttpPost("create-account")]

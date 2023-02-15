@@ -111,7 +111,11 @@ namespace backend.BLL.Services.Implementation
                 FirstName = model.FistName,
                 LastName = model.LastName,
                 Name = model.Name,
-                Created = DateTime.UtcNow
+                Created = DateTime.UtcNow,
+                Img = new Attachment
+                {
+                    Path = FileConstants.DefaultAvatar
+                }
             };
 
             var result = await _userManager.CreateAsync(user);

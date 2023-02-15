@@ -7,7 +7,7 @@ export const account = {
       isLoading: false,
     },
     profile: {
-      avatar: "",
+      avatar: "default.png",
     },
   },
   actions: {

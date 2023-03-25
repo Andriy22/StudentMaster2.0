@@ -1,0 +1,66 @@
+<ng-container [ngTemplateOutletContext]="{menuList: menu$ | async, parentRoute: [], level: 0}"
+              [ngTemplateOutlet]="menuListTpl">
+</ng-container>
+
+<ng-template #menuListTpl let-level="level" let-menuList="menuList" let-parentRoute="parentRoute">
+  <ul [class.submenu]="level>0" class="matero-sidemenu level-{{level}}" navAccordion>
+    <ng-container *ngFor="let menuItem of menuList">
+      <ng-template [ngxPermissionsExcept]="menuItem.permissions?.except"
+                   [ngxPermissionsOnly]="menuItem.permissions?.only">
+
+        <li [route]="menuItem.route" [routerLinkActiveOptions]="{exact: true}" [type]="menuItem.type"
+            class="menu-item"
+            navAccordionItem routerLinkActive="active">
+
+          <a *ngIf="menuItem.type==='link'"
+             [matRippleDisabled]="!ripple"
+             [routerLink]="buildRoute(parentRoute.concat([menuItem.route]))" class="menu-heading" matRipple>
+            <ng-container [ngTemplateOutletContext]="{item: menuItem, level: level}"
+                          [ngTemplateOutlet]="linkTypeTpl">
+            </ng-container>
+          </a>
+
+          <a *ngIf="menuItem.type==='extLink'" [href]="menuItem.route"
+             [matRippleDisabled]="!ripple" class="menu-heading" matRipple>
+            <ng-container [ngTemplateOutletContext]="{item: menuItem, level: level}"
+                          [ngTemplateOutlet]="linkTypeTpl">
+            </ng-container>
+          </a>
+
+          <a *ngIf="menuItem.type==='extTabLink'" [href]="menuItem.route" [matRippleDisabled]="!ripple"
+             class="menu-heading" matRipple target="_blank">
+            <ng-container [ngTemplateOutletContext]="{item: menuItem, level: level}"
+                          [ngTemplateOutlet]="linkTypeTpl">
+            </ng-container>
+          </a>
+
+          <button *ngIf="menuItem.type==='sub'" [matRippleDisabled]="!ripple"
+                  class="menu-heading menu-toggle" matRipple navAccordionToggle>
+            <ng-container [ngTemplateOutletContext]="{item: menuItem, level: level}"
+                          [ngTemplateOutlet]="linkTypeTpl">
+            </ng-container>
+          </button>
+
+          <ng-container [ngTemplateOutletContext]="{
+                          menuList: menuItem.children,
+                          parentRoute: parentRoute.concat([menuItem.route]),
+                          level: level + 1
+                        }"
+                        [ngTemplateOutlet]="menuListTpl">
+          </ng-container>
+        </li>
+
+      </ng-template>
+    </ng-container>
+  </ul>
+</ng-template>
+
+<ng-template #linkTypeTpl let-item="item" let-level="level">
+  <mat-icon *ngIf="level===0" class="menu-icon">{{item.icon}}</mat-icon>
+  <span class="menu-name">{{item.name | translate}}</span>
+  <span *ngIf="item.label" class="menu-label bg-{{item.label.color}}">{{item.label.value}}</span>
+  <span *ngIf="item.badge" class="menu-badge bg-{{item.badge.color}}">{{item.badge.value}}</span>
+  <mat-icon *ngIf="item.type!=='link'" class="menu-caret">
+    {{item.type === 'sub' ? 'arrow_drop_down' : 'launch'}}
+  </mat-icon>
+</ng-template>

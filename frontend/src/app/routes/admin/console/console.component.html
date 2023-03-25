@@ -1,0 +1,40 @@
+<div class="col-md-12 col-12">
+  <div class="mat-content" class="chat">
+    <mat-card tdMediaToggle="gt-xs">
+      <mat-card-subtitle>Console</mat-card-subtitle>
+      <mat-list>
+
+        <mat-list-item *ngFor="let item of this.messages" class="pad-top pad-bottom">
+          <h3 class="cursor-pointer" matListItemTitle><b [style.color]="item.color">{{item.fullName}}</b>: <span
+            class="tc-grey-500 md-caption">{{item.date}}</span></h3>
+          <div matListItemLine>
+            <div class="text-wrap" style="word-wrap:break-word;">
+              <b (click)="saveCommand(item.message)" *ngIf="this.item.message[0] === '/'"
+                 style="padding-left: 1rem; cursor: pointer;">{{item.message}}</b>
+              <b *ngIf="this.item.message[0] !== '/'" style="padding-left: 1rem;">{{item.message}}</b>
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+  <mat-divider></mat-divider>
+
+  <mat-card>
+    <div layout="row" layout-align="start center">
+      <mat-form-field flex floatPlaceholder="never" layout="row" style="width: 100%">
+        <textarea [(ngModel)]="this.message" matInput placeholder="message" style="width: 100%"></textarea>
+
+      </mat-form-field>
+      <button (click)="this.Send()" [disabled]="this.message.length === 0" color="primary" mat-button mat-raised-button
+              type="submit">Відправити
+      </button>
+      <button (click)="this.Help()" [disabled]="this.isLoading" color="primary" mat-button mat-raised-button
+              style="margin-left: 1rem;" type="submit">Допомога
+      </button>
+      <button (click)="this.Clear()" [disabled]="this.messages.length === 0" color="primary" mat-button
+              mat-raised-button style="margin-left: 1rem;" type="submit">Очистити
+      </button>
+    </div>
+  </mat-card>
+</div>

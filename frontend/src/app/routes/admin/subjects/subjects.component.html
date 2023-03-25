@@ -1,0 +1,53 @@
+<div class="container-fluid row mb-1">
+  <button (click)="addSubject()" class="col-12 col-md-2" color="primary" mat-raised-button> Додати предмет</button>
+</div>
+<br>
+<div class="container-fluid mat-elevation-z8">
+  <div class="row">
+    <mat-form-field class="col-4">
+      <mat-label>Пошук</mat-label>
+      <input (keyup)="applyFilter($event)" class="8" matInput placeholder="Пошук...">
+    </mat-form-field>
+  </div>
+  <br>
+  <table [dataSource]="dataSource" mat-table matSort>
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Назва предмету</th>
+      <td *matCellDef="let row" mat-cell><p> {{row.name}} </p></td>
+    </ng-container>
+    <ng-container matColumnDef="isDeleted">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Статус</th>
+      <td *matCellDef="let row" mat-cell>
+        <p>
+          <mat-chip *ngIf="!row.isDeleted" class="chip-active">
+            Активний
+          </mat-chip>
+
+          <mat-chip *ngIf="row.isDeleted" class="chip-deleted">
+            Деактивований
+          </mat-chip>
+        </p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell>Дії</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="changeState(row.id)" *ngIf="!row.isDeleted" color="warn"
+                mat-icon-button matTooltip="Змінити статус на активний">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button (click)="changeState(row.id)" *ngIf="row.isDeleted" color="accent"
+                mat-icon-button matTooltip="Змінити статус на деактивований">
+          <mat-icon>update</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 aria-label="Select page of periodic elements"
+                 showFirstLastButtons>
+  </mat-paginator>
+</div>

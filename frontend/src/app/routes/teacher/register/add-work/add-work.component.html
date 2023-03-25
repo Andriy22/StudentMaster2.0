@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Додавання нової роботи</h2>
+<div mat-dialog-content>
+  <mat-stepper [linear]="isLinear">
+    <mat-step [stepControl]="firstFormGroup" label="Назва роботи">
+      <form [formGroup]="firstFormGroup">
+        <mat-form-field appearance="fill" class="col-12">
+          <input formControlName="firstCtrl" matInput placeholder="Введіть назву роботи" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Продовжити</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" label="Готовий пресет">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Оберіть пресет</mat-label>
+          <mat-select (valueChange)="onPresentChanged($event)" formControlName="secondCtrl" required>
+            <mat-option value="none">Новий</mat-option>
+            <mat-option *ngFor="let preset of data.presets" [value]='preset'>{{preset.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Назад</button>
+          <button mat-button matStepperNext>Продовжити</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step label="Налаштування">
+      <div>
+        <button (click)="addItem()" [disabled]="items.length >= 7" aria-label="Додати нову роботу" color="primary"
+                mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div *ngFor="let item of items" class="row">
+        <mat-form-field appearance="fill" class="col-md-6 col-12">
+          <mat-label>Назва критерію</mat-label>
+          <input [(ngModel)]="item.name" [disabled]="!item.removable" matInput placeholder="Введіть назву критерію"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="col-md-5 col-12">
+          <mat-label>Максимальна оцінка критерію</mat-label>
+          <input [(ngModel)]="item.maxGrade" matInput max="100" min="0"
+                 placeholder="Введіть максимальну оцінку критерію"
+                 required type="number">
+          <mat-error>Оцінка повинна бути в діапазоні від 0 до 100</mat-error>
+        </mat-form-field>
+
+        <button (click)="removeItem(item)" [disabled]="!item.removable" aria-label="Видалити критерій" color="warn"
+                mat-icon-button>
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <span>Ви використали {{items.length}} критеріїв з 7</span>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Назад</button>
+        <button (click)="createWork()" mat-button>Додати роботу</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

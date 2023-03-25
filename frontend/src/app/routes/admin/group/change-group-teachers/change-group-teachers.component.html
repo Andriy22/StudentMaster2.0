@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Редагування викладачів групи</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill" class="col-12">
+    <mat-label>Оберіть викладачів</mat-label>
+    <mat-select [(ngModel)]="selectedTeacherIds" multiple>
+      <mat-optgroup *ngFor="let item of groups" [label]="item.title">
+        <mat-option (click)="onItemSelected(subject.id)" *ngFor="let subject of item.items"
+                    [value]="subject.id">{{subject.fullName}}</mat-option>
+      </mat-optgroup>
+
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button (click)="close()" [class.spinner]="this.isLoading" [disabled]="this.isLoading" mat-button>закрити</button>
+</div>

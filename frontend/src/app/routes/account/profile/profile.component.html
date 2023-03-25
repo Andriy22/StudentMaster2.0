@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-sm-4 col-md-4 col-lg-3">
+    <mat-card>
+      <mat-card-content>
+        <div class="text-center">
+          <img (click)="changePhoto()" [src]="'https://localhost:7189/static/avatars/' + user.avatar"
+               alt="avatar" class="m-b-8 r-full" style="cursor: pointer;"
+               width="80">
+          <h2 class="m-t-0 m-b-8 f-w-400">{{ user.name }}</h2>
+          <input accept="image/png, image/jpeg, image/bmp" id="photoSelector" style="display: none;" type="file">
+          <button (click)="changePhoto()" class="m-l-8" color="accent" mat-raised-button>Змінити зображення профілю
+          </button>
+        </div>
+        <mat-nav-list class="m-x--16 m-b--16 m-t-16">
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/account/profile">
+            <mat-icon matListItemIcon>settings</mat-icon>
+            Налаштування
+          </a>
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-sm-8 col-md-8 col-lg-9">
+    <app-profile-settings></app-profile-settings>
+  </div>
+</div>

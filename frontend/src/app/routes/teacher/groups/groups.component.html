@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div>
+    <h1 class="text-center">Доступні групи</h1>
+    <mat-divider/>
+  </div>
+  <div class="row">
+    <div
+      *ngFor="let group of this.groups"
+      [routerLink]="'/teacher/group/' + group.id"
+      class="ripple-container mat-elevation-z4"
+      matRipple>
+      {{group.name}}
+    </div>
+  </div>
+</div>

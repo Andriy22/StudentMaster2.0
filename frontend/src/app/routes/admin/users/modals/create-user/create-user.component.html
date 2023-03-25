@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Додавання нового користувача</h2>
+<div mat-dialog-content>
+  <form [formGroup]="createUserForm" class="form-field-full">
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-4 col-12">
+        <mat-label>Прізвище</mat-label>
+        <input formControlName="firstName" matInput required>
+        <mat-error *ngIf="firstName.invalid">
+            <span *ngIf="firstName.errors?.required">{{'please_enter' | translate}}
+            </span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-4 col-12">
+        <mat-label>Ім'я</mat-label>
+        <input formControlName="name" matInput required>
+        <mat-error *ngIf="name.invalid">
+            <span *ngIf="name.errors?.required">{{'please_enter' | translate}}
+            </span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-4 col-12">
+        <mat-label>По батькові</mat-label>
+        <input formControlName="lastName" matInput required>
+        <mat-error *ngIf="lastName.invalid">
+            <span *ngIf="lastName.errors?.required">{{'please_enter' | translate}}
+            </span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input formControlName="email" matInput required>
+      <mat-error *ngIf="email.invalid">
+        <span *ngIf="email.errors?.required">{{'please_enter' | translate}}
+            </span>
+        <span *ngIf="email.errors?.email">{{'validations.invalid_email' | translate}}
+            </span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Роль</mat-label>
+      <mat-select formControlName="role">
+        <mat-option *ngFor="let role of this.data?.roles" [value]="role">{{role}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="lastName.invalid">
+            <span *ngIf="lastName.errors?.required">{{'please_enter' | translate}}
+            </span>
+      </mat-error>
+    </mat-form-field>
+
+
+    <button
+      (click)="onSubmit()"
+      [disabled]=" this.isLoading || this.createUserForm.invalid"
+      [loading]="this.isLoading"
+      color="primary"
+      mat-raised-button
+      style="margin-left: 1rem; margin-right: 1rem;"
+    >Додати користувача
+    </button>
+    <button
+      (click)="cancel()"
+      [disabled]=" this.isLoading"
+      [loading]="this.isLoading"
+      color="accent"
+      mat-raised-button
+      style="margin-left: 1rem; margin-right: 1rem;"
+    >Скасувати
+    </button>
+  </form>
+</div>

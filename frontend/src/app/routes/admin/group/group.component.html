@@ -1,0 +1,45 @@
+<div>
+  <h2>Група {{group?.name}}</h2>
+  <mat-divider></mat-divider>
+  <br>
+  <button (click)="changeGroupSubjects(group?.id)" class="mt-10 col-12 col-md-3" color="accent" mat-stroked-button
+  >Редагувати предмети
+  </button>
+  <br/>
+  <button (click)="changeGroupTeachers(group?.id)" class="mt-10 col-12 col-md-3" color="accent" mat-stroked-button
+  >Редагувати викладачів
+  </button>
+  <br/>
+  <button (click)="editSchedule(group?.id)" class="mt-10 col-12 col-md-3" color="accent" mat-stroked-button
+  >Редагувати розклад
+  </button>
+  <mat-tab-group class="mt" color="accent" mat-align-tabs="center" mat-stretch-tabs="true">
+    <mat-tab label="Студенти">
+      <table [dataSource]="dataSource" mat-table>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="fullName">
+          <th *matHeaderCellDef mat-header-cell style="width: 90%">ПІБ</th>
+          <td *matCellDef="let element" mat-cell><p *ngIf="element.fullName"> {{element.fullName}} </p></td>
+        </ng-container>
+        <ng-container class="text-center" matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell>Дії</th>
+          <td *matCellDef="let element" mat-cell>
+            <button (click)="removeStudentFromGroup(element.id)" color="warn" mat-icon-button
+                    matTooltip="Видалити студента з групи" style="margin: 1rem;">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+      </table>
+    </mat-tab>
+    <mat-tab label="Журнал">
+      <app-admin-group-register [groupId]="groupId"></app-admin-group-register>
+    </mat-tab>
+    
+  </mat-tab-group>
+
+
+</div>

@@ -1,0 +1,47 @@
+<div class="col-12">
+  <div>
+    <div class="row">
+      <div class="col-md-2 col-12">
+        <mat-form-field class="col-12">
+          <mat-label>Оберіть предмет</mat-label>
+          <mat-select (valueChange)="onSubjectChange($event)" [(ngModel)]="selectedSubjectId" [disabled]="isLoading "
+          >
+            <mat-option *ngFor="let item of this.subjects" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2 col-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Оберіть дату</mat-label>
+          <input (dateChange)="onDataChange($event)" [(ngModel)]="date" [matDatepicker]="picker" matInput readonly>
+          <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table style="width: 100%">
+        <ng-container matColumnDef="fullName">
+          <th *matHeaderCellDef mat-header-cell>ПІБ</th>
+          <td *matCellDef="let element" mat-cell>{{ element.fullName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isPresent">
+          <th *matHeaderCellDef mat-header-cell>
+            Відвідування
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            <mat-checkbox (change)="onChange($event, element.id)" [checked]="element.isPresent"></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20, 30, 40, 50]" class="mat-paginator-sticky">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

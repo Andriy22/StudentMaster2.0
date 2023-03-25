@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Додавання нового предмету</h2>
+<div mat-dialog-content>
+  <mat-form-field class="col-12">
+    <mat-label>Назва предмету</mat-label>
+    <input [(ngModel)]="name" matInput placeholder="Назва предмету">
+  </mat-form-field>
+
+  <button
+    (click)="onSubmit()"
+    [disabled]=" this.isLoading || name.length <=0"
+    [loading]="this.isLoading"
+    color="primary"
+    mat-raised-button
+    style="margin-left: 1rem; margin-right: 1rem;"
+  >Додати предмет
+  </button>
+  <button
+    (click)="cancel()"
+    [disabled]=" this.isLoading"
+    [loading]="this.isLoading"
+    color="accent"
+    mat-raised-button
+    style="margin-left: 1rem; margin-right: 1rem;"
+  >Скасувати
+  </button>
+</div>

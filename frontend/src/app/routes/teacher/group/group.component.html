@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div>
+    <h1 class="text-center">Обрана група: {{this.group?.name}}</h1>
+    <mat-divider/>
+  </div>
+
+  <mat-tab-group class="mt" color="accent" mat-align-tabs="center" mat-stretch-tabs="true">
+    <mat-tab label="Журнал">
+      <app-teacher-register [groupId]="groupId"></app-teacher-register>
+    </mat-tab>
+    <mat-tab label="Відвідування">
+      <app-teacher-group-attendance [groupId]="groupId"></app-teacher-group-attendance>
+    </mat-tab>
+    <mat-tab label="Чат">
+      Group chat will be here
+    </mat-tab>
+  </mat-tab-group>
+
+</div>

@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-card-header class="m-b-16">
+    <mat-card-title>Зміна паролю</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <mat-horizontal-stepper #stepper [linear]="isLinear">
+      <mat-step [stepControl]="currentPassword">
+        <form [formGroup]="currentPassword">
+          <ng-template matStepLabel>Поточний пароль</ng-template>
+          <mat-form-field class="col-md-5 col-12">
+            <input autocomplete="on" class="col-md-6 col-12" formControlName="password" matInput
+                   placeholder="Поточний пароль"
+                   required type="password">
+          </mat-form-field>
+          <div>
+            <button [disabled]="this.currentPassword.invalid" color="primary" mat-raised-button
+                    matStepperNext>Продовжити
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="newPassword">
+        <form [formGroup]="newPassword">
+          <ng-template matStepLabel>Новий пароль</ng-template>
+          <mat-form-field class="col-md-6 col-12">
+            <input autocomplete="off" formControlName="password" matInput placeholder="Новий пароль" required
+                   type="password">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="col-md-6 coll-12">
+            <input autocomplete="off" formControlName="confirm" matInput placeholder="Підтвердіть новий пароль"
+                   required type="password">
+          </mat-form-field>
+          <div>
+            <button color="accent" mat-raised-button matStepperPrevious style="margin-right: 1rem;">Повернутись</button>
+            <button (click)="this.onSubmit(stepper)" [disabled]="this.newPassword.invalid" color="primary"
+                    mat-raised-button>Продовжити
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Результат</ng-template>
+        Ваш пароль успішно змінено!
+        <div>
+          <button (click)=" stepper.reset()" color="primary" mat-raised-button>Ок</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+  </mat-card-content>
+</mat-card>

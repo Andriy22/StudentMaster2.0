@@ -1,0 +1,143 @@
+<h1 mat-dialog-title>
+  Редагування розкладу
+</h1>
+<div mat-dialog-content>
+  <mat-form-field class="col-12 col-md-4">
+    <mat-label>День</mat-label>
+    <mat-select (selectionChange)="onDayChange($event)" [(ngModel)]="selectedDay">
+      <mat-option *ngFor="let item of days" [value]="item.id">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br/>
+
+  <button (click)="addNewRow()" color="primary" mat-icon-button matTooltip="Додати новий рядок">
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <button (click)="saveItems()" color="accent" mat-icon-button matTooltip="Зберегти зміни" s>
+    <mat-icon>save</mat-icon>
+  </button>
+
+  <div class="table-responsive">
+    <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table style="width: 100%">
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>No.</th>
+        <td *matCellDef="let element" mat-cell>{{ element.position }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="subject">
+        <th *matHeaderCellDef mat-header-cell>Предмет</th>
+        <td *matCellDef="let element" class="selection-col-limit" mat-cell>
+          <mat-form-field class="col-12">
+            <mat-label>Предмет</mat-label>
+            <mat-select
+              [(ngModel)]="element.subjectShortInfo.id"
+            >
+              <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+                {{ subject.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th *matHeaderCellDef mat-header-cell>Тип заняття</th>
+        <td *matCellDef="let element" class="selection-col-limit" mat-cell>
+          <mat-form-field class="col-12">
+            <mat-label>Оберіть тип</mat-label>
+            <mat-select
+              [(ngModel)]="element.scheduleItemType.id"
+            >
+              <mat-option *ngFor="let type of types" [value]="type.id">
+                {{ type.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="start">
+        <th *matHeaderCellDef mat-header-cell>Початок</th>
+        <td *matCellDef="let element" class="time-col-limit" mat-cell>
+          <mat-form-field>
+            <input
+              [(ngModel)]="element.start"
+              [format]="24"
+              [ngxMatTimepicker]="pickerStart"
+              matInput
+              name="selected_time_start"
+              readonly
+            />
+            <mat-icon (click)="pickerStart.open()"
+                      matSuffix>
+              watch_later
+            </mat-icon>
+          </mat-form-field>
+          <ngx-mat-timepicker #pickerStart [enableKeyboardInput]="true"
+                              color="accent"></ngx-mat-timepicker>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="end">
+        <th *matHeaderCellDef mat-header-cell>Кінець</th>
+        <td *matCellDef="let element" class="time-col-limit" mat-cell>
+          <mat-form-field>
+            <input
+              [(ngModel)]="element.end"
+              [format]="24"
+              [ngxMatTimepicker]="pickerEnd"
+              matInput
+              name="selected_time_end"
+              readonly
+            />
+            <mat-icon (click)="pickerEnd.open()"
+                      matSuffix>
+              watch_later
+            </mat-icon>
+          </mat-form-field>
+          <ngx-mat-timepicker #pickerEnd [enableKeyboardInput]="true"
+                              color="accent"></ngx-mat-timepicker>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="url">
+        <th *matHeaderCellDef mat-header-cell>Посилання</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-form-field class="col-12">
+            <input [(ngModel)]="element.url" matInput placeholder="Посилання"/>
+          </mat-form-field>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="comment">
+        <th *matHeaderCellDef mat-header-cell>Коментарій</th>
+        <td *matCellDef="let element" mat-cell>
+          <mat-form-field class="col-12">
+            <input [(ngModel)]="element.comment" matInput placeholder="Коментарій"/>
+          </mat-form-field>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th *matHeaderCellDef mat-header-cell>дії</th>
+        <td *matCellDef="let element" mat-cell>
+          <div class="row">
+            <button (click)="deleteRow(element.id)" color="warn" mat-icon-button matTooltip="Видалити">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
+  </div>
+</div>

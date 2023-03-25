@@ -1,0 +1,48 @@
+{
+  "menu": {
+    "dashboard": "Головна",
+    "users": "Користувачі",
+    "console": "Консоль",
+    "subjects": "Предмети",
+    "group": "Групи",
+    "schedule": "Розклад"
+  },
+  "validations": {
+    "required": "This field is required",
+    "minlength": "Should have atleast {{number}} characters",
+    "maxlength": "This value should be less than {{number}} characters",
+    "min": "This value should be more than {{number}}",
+    "max": "This value should be less than {{number}}",
+    "exist": "The {{value}} has exists",
+    "inconsistent": "Inconsistent with {{value}}",
+    "invalid_email": "Invalid email"
+  },
+  "paginator": {
+    "items_per_page_label": "Items per page:",
+    "next_page_label": "Next page",
+    "previous_page_label": "Previous page",
+    "first_page_label": "First page",
+    "last_page_label": "Last page",
+    "range_page_label_1": "no record",
+    "range_page_label_2": "{{startIndex}} - {{endIndex}} of {{length}}"
+  },
+  "profile": "Профіль",
+  "edit_profile": "Редагувати профіль",
+  "logout": "Вийти",
+  "login": "Увійти",
+  "login_title": "Welcome Back",
+  "have_no_account": "Ваш аккаунт непідтверджено",
+  "create_one_account": "Нажміть сюди, щоб підтвериди",
+  "please_enter": "Заповніть це поле",
+  "username": "EMail",
+  "password": "Пароль",
+  "confirmation_code": "Код підтвердження",
+  "confirm_password": "Підтвердіть пароль",
+  "remember_me": "Remember Me",
+  "register": "Підтвердити",
+  "register_welcome": "Welcome",
+  "register_title": "Підтвердження облікового запису",
+  "read_and_agree": "I have read and agree to the terms of service",
+  "have_an_account": "Ваш аккаунт уже підтверджено",
+  "restore_defaults": "Restore defaults"
+}

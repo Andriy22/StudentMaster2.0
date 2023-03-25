@@ -1,0 +1,92 @@
+{
+  "menu": [
+    {
+      "route": "/teacher",
+      "name": "dashboard",
+      "type": "link",
+      "icon": "dashboard",
+      "permissions": {
+        "only": [
+          "Teacher"
+        ]
+      }
+    },
+    {
+      "route": "/teacher/groups",
+      "name": "group",
+      "type": "link",
+      "icon": "groups",
+      "permissions": {
+        "only": [
+          "Teacher"
+        ]
+      }
+    },
+    {
+      "route": "/teacher/schedule",
+      "name": "schedule",
+      "type": "link",
+      "icon": "schedule",
+      "permissions": {
+        "only": [
+          "Teacher"
+        ]
+      }
+    },
+    {
+      "route": "/admin",
+      "name": "dashboard",
+      "type": "link",
+      "icon": "dashboard",
+      "permissions": {
+        "only": [
+          "Admin"
+        ]
+      }
+    },
+    {
+      "route": "/admin/users",
+      "name": "users",
+      "type": "link",
+      "icon": "person",
+      "permissions": {
+        "only": [
+          "Admin"
+        ]
+      }
+    },
+    {
+      "route": "/admin/subjects",
+      "name": "subjects",
+      "type": "link",
+      "icon": "title",
+      "permissions": {
+        "only": [
+          "Admin"
+        ]
+      }
+    },
+    {
+      "route": "/admin/groups",
+      "name": "group",
+      "type": "link",
+      "icon": "groups",
+      "permissions": {
+        "only": [
+          "Admin"
+        ]
+      }
+    },
+    {
+      "route": "/admin/console",
+      "name": "console",
+      "type": "link",
+      "icon": "code",
+      "permissions": {
+        "only": [
+          "Admin"
+        ]
+      }
+    }
+  ]
+}

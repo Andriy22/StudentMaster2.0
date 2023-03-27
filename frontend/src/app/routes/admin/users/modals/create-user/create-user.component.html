@@ -6,8 +6,9 @@
         <mat-label>Прізвище</mat-label>
         <input formControlName="firstName" matInput required>
         <mat-error *ngIf="firstName.invalid">
-            <span *ngIf="firstName.errors?.required">{{'please_enter' | translate}}
-            </span>
+          <span *ngIf="firstName.errors?.required">
+            {{'please_enter' | translate}}
+          </span>
         </mat-error>
       </mat-form-field>
 
@@ -15,8 +16,9 @@
         <mat-label>Ім'я</mat-label>
         <input formControlName="name" matInput required>
         <mat-error *ngIf="name.invalid">
-            <span *ngIf="name.errors?.required">{{'please_enter' | translate}}
-            </span>
+          <span *ngIf="name.errors?.required">
+            {{'please_enter' | translate}}
+          </span>
         </mat-error>
       </mat-form-field>
 
@@ -24,8 +26,9 @@
         <mat-label>По батькові</mat-label>
         <input formControlName="lastName" matInput required>
         <mat-error *ngIf="lastName.invalid">
-            <span *ngIf="lastName.errors?.required">{{'please_enter' | translate}}
-            </span>
+          <span *ngIf="lastName.errors?.required">
+            {{'please_enter' | translate}}
+          </span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -34,10 +37,12 @@
       <mat-label>Email</mat-label>
       <input formControlName="email" matInput required>
       <mat-error *ngIf="email.invalid">
-        <span *ngIf="email.errors?.required">{{'please_enter' | translate}}
-            </span>
-        <span *ngIf="email.errors?.email">{{'validations.invalid_email' | translate}}
-            </span>
+        <span *ngIf="email.errors?.required">
+          {{'please_enter' | translate}}
+        </span>
+        <span *ngIf="email.errors?.email">
+          {{'validations.invalid_email' | translate}}
+        </span>
       </mat-error>
     </mat-form-field>
 
@@ -47,8 +52,9 @@
         <mat-option *ngFor="let role of this.data?.roles" [value]="role">{{role}}</mat-option>
       </mat-select>
       <mat-error *ngIf="lastName.invalid">
-            <span *ngIf="lastName.errors?.required">{{'please_enter' | translate}}
-            </span>
+        <span *ngIf="lastName.errors?.required">
+          {{'please_enter' | translate}}
+        </span>
       </mat-error>
     </mat-form-field>
 
@@ -59,8 +65,8 @@
       [loading]="this.isLoading"
       color="primary"
       mat-raised-button
-      style="margin-left: 1rem; margin-right: 1rem;"
-    >Додати користувача
+      style="margin-left: 1rem; margin-right: 1rem;">
+      Додати користувача
     </button>
     <button
       (click)="cancel()"
@@ -68,8 +74,8 @@
       [loading]="this.isLoading"
       color="accent"
       mat-raised-button
-      style="margin-left: 1rem; margin-right: 1rem;"
-    >Скасувати
+      style="margin-left: 1rem; margin-right: 1rem;">
+      Скасувати
     </button>
   </form>
 </div>

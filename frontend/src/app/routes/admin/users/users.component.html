@@ -17,15 +17,21 @@
     <table [dataSource]="dataSource" mat-table matSort>
       <ng-container matColumnDef="fullName">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Повне ім'я</th>
-        <td *matCellDef="let row" mat-cell><p> {{row.fullName}} </p></td>
+        <td *matCellDef="let row" mat-cell>
+          <p> {{row.fullName}} </p>
+        </td>
       </ng-container>
       <ng-container matColumnDef="email">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
-        <td *matCellDef="let row" mat-cell><p> {{row.email}} </p></td>
+        <td *matCellDef="let row" mat-cell>
+          <p> {{row.email}} </p>
+        </td>
       </ng-container>
       <ng-container matColumnDef="roles">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Ролі</th>
-        <td *matCellDef="let row" mat-cell><p> {{row.roles}} </p></td>
+        <td *matCellDef="let row" mat-cell>
+          <p> {{row.roles}} </p>
+        </td>
       </ng-container>
       <ng-container matColumnDef="isDeleted">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Статус</th>
@@ -43,7 +49,9 @@
       </ng-container>
       <ng-container matColumnDef="lastOnlineDate">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Дата останього входу</th>
-        <td *matCellDef="let row" mat-cell><p> {{row.lastOnlineDate}} </p></td>
+        <td *matCellDef="let row" mat-cell>
+          <p> {{row.lastOnlineDate}} </p>
+        </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th *matHeaderCellDef mat-header-cell>Дії</th>

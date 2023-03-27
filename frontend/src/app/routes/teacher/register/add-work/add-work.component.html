@@ -17,7 +17,7 @@
           <mat-label>Оберіть пресет</mat-label>
           <mat-select (valueChange)="onPresentChanged($event)" formControlName="secondCtrl" required>
             <mat-option value="none">Новий</mat-option>
-            <mat-option *ngFor="let preset of data.presets" [value]='preset'>{{preset.name}}</mat-option>
+            <mat-option *ngFor="let preset of data.presets" [value]="preset">{{preset.name}}</mat-option>
           </mat-select>
         </mat-form-field>
         <div>

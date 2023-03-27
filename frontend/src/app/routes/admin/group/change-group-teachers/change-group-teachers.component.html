@@ -5,7 +5,9 @@
     <mat-select [(ngModel)]="selectedTeacherIds" multiple>
       <mat-optgroup *ngFor="let item of groups" [label]="item.title">
         <mat-option (click)="onItemSelected(subject.id)" *ngFor="let subject of item.items"
-                    [value]="subject.id">{{subject.fullName}}</mat-option>
+                    [value]="subject.id">
+          {{subject.fullName}}
+        </mat-option>
       </mat-optgroup>
 
     </mat-select>

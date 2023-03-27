@@ -5,12 +5,19 @@
       <mat-list>
 
         <mat-list-item *ngFor="let item of this.messages" class="pad-top pad-bottom">
-          <h3 class="cursor-pointer" matListItemTitle><b [style.color]="item.color">{{item.fullName}}</b>: <span
-            class="tc-grey-500 md-caption">{{item.date}}</span></h3>
+          <h3 class="cursor-pointer" matListItemTitle>
+            <b [style.color]="item.color">{{item.fullName}}</b>:
+            <span
+              class="tc-grey-500 md-caption">
+              {{item.date}}
+            </span>
+          </h3>
           <div matListItemLine>
-            <div class="text-wrap" style="word-wrap:break-word;">
+            <div class="text-wrap" style="word-wrap: break-word;">
               <b (click)="saveCommand(item.message)" *ngIf="this.item.message[0] === '/'"
-                 style="padding-left: 1rem; cursor: pointer;">{{item.message}}</b>
+                 style="cursor: pointer; padding-left: 1rem;">
+                {{item.message}}
+              </b>
               <b *ngIf="this.item.message[0] !== '/'" style="padding-left: 1rem;">{{item.message}}</b>
             </div>
           </div>
@@ -27,13 +34,16 @@
 
       </mat-form-field>
       <button (click)="this.Send()" [disabled]="this.message.length === 0" color="primary" mat-button mat-raised-button
-              type="submit">Відправити
+              type="submit">
+        Відправити
       </button>
       <button (click)="this.Help()" [disabled]="this.isLoading" color="primary" mat-button mat-raised-button
-              style="margin-left: 1rem;" type="submit">Допомога
+              style="margin-left: 1rem;" type="submit">
+        Допомога
       </button>
       <button (click)="this.Clear()" [disabled]="this.messages.length === 0" color="primary" mat-button
-              mat-raised-button style="margin-left: 1rem;" type="submit">Очистити
+              mat-raised-button style="margin-left: 1rem;" type="submit">
+        Очистити
       </button>
     </div>
   </mat-card>

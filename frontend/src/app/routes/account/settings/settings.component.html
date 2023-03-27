@@ -16,7 +16,8 @@
           </mat-form-field>
           <div>
             <button [disabled]="this.currentPassword.invalid" color="primary" mat-raised-button
-                    matStepperNext>Продовжити
+                    matStepperNext>
+              Продовжити
             </button>
           </div>
         </form>
@@ -36,7 +37,8 @@
           <div>
             <button color="accent" mat-raised-button matStepperPrevious style="margin-right: 1rem;">Повернутись</button>
             <button (click)="this.onSubmit(stepper)" [disabled]="this.newPassword.invalid" color="primary"
-                    mat-raised-button>Продовжити
+                    mat-raised-button>
+              Продовжити
             </button>
           </div>
         </form>

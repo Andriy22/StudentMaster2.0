@@ -5,8 +5,7 @@
       <div class="col-md-2 col-12">
         <mat-form-field class="col-12">
           <mat-label>Оберіть предмет</mat-label>
-          <mat-select (valueChange)="onSubjectChange($event)" [(ngModel)]="selectedSubjectId" [disabled]="isLoading "
-          >
+          <mat-select (valueChange)="onSubjectChange($event)" [(ngModel)]="selectedSubjectId" [disabled]="isLoading ">
             <mat-option *ngFor="let item of this.subjects" [value]="item.id">{{item.name}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -34,9 +33,9 @@
             class="register-control col-md-6 col-12"
             color="warn"
             size="large">
-      <span class="register-control-text">
+            <span class="register-control-text">
               Розширена версія
-      </span>
+            </span>
           </mat-slide-toggle>
           <mat-slide-toggle
             [(ngModel)]="isEdit"
@@ -44,9 +43,9 @@
             aria-label="Розширена версія"
             class="register-control col-md-6 col-12"
             color="warn" size="large">
-      <span class="register-control-text">
+            <span class="register-control-text">
               Режим редагування
-      </span>
+            </span>
           </mat-slide-toggle>
         </div>
       </div>
@@ -89,7 +88,9 @@
                       [(ngModel)]="element[col.key]"
                       [disabled]="isLoading">
             <mat-option *ngFor="let item of [].constructor(element[col.key + '_limit'] + 1); let i = index"
-                        [value]="i.toString()">{{i}}</mat-option>
+                        [value]="i.toString()">
+              {{i}}
+            </mat-option>
           </mat-select>
         </td>
       </ng-container>

@@ -10,7 +10,8 @@
           <mat-label>{{'username' | translate}}</mat-label>
           <input formControlName="username" matInput required>
           <mat-error *ngIf="username.invalid">
-            <span *ngIf="username.errors?.required">{{'please_enter' | translate}}
+            <span *ngIf="username.errors?.required">
+              {{'please_enter' | translate}}
             </span>
             <span *ngIf="username.errors?.remote">{{ username.errors?.remote }}</span>
           </mat-error>
@@ -21,7 +22,8 @@
           <input formControlName="password" matInput
                  required type="password">
           <mat-error *ngIf="password.invalid">
-            <span *ngIf="password.errors?.required">{{'please_enter' | translate}}
+            <span *ngIf="password.errors?.required">
+              {{'please_enter' | translate}}
             </span>
             <span *ngIf="password.errors?.remote">{{ password.errors?.remote }}</span>
           </mat-error>
@@ -30,9 +32,12 @@
 
         <button (click)="login()" [disabled]="!!loginForm.invalid" [loading]="isSubmitting"
                 class="w-full m-y-16" color="primary"
-                mat-raised-button>{{'login' | translate}}</button>
+                mat-raised-button>
+          {{'login' | translate}}
+        </button>
 
-        <div>{{'have_no_account' | translate}}?
+        <div>
+          {{'have_no_account' | translate}}?
           <a routerLink="/auth/register">{{'create_one_account' | translate}}</a>
         </div>
       </form>

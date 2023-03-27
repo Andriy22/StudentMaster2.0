@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Text;
 using backend.API.Hubs;
 using backend.API.Middleware;
 using backend.API.Services;
@@ -17,15 +19,11 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
-using System.Text;
 
-static bool CustomLifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+static bool CustomLifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken,
+    TokenValidationParameters validationParameters)
 {
-    if (expires != null)
-    {
-        return DateTime.UtcNow < expires;
-    }
+    if (expires != null) return DateTime.UtcNow < expires;
     return false;
 }
 
@@ -39,11 +37,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => { b.EnableRetryOnFailure(); b.MigrationsAssembly("backend.API"); }));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b =>
+    {
+        b.EnableRetryOnFailure();
+        b.MigrationsAssembly("backend.API");
+    }));
 
 builder.Services.AddDefaultIdentity<User>()
-                          .AddRoles<IdentityRole>()
-                          .AddEntityFrameworkStores<DataContext>();
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>();
 
 var identityBuilder = builder.Services.AddIdentityCore<User>(o =>
 {
@@ -63,39 +65,40 @@ var KEY = builder.Configuration.GetSection("JWT").GetValue<string>("KEY");
 var SSK = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-       .AddJwtBearer(options =>
-       {
-           options.RequireHttpsMetadata = false;
-           options.TokenValidationParameters = new TokenValidationParameters
-           {
-               ValidateIssuer = true,
-               ValidIssuer = builder.Configuration.GetSection("JWT").GetValue<string>("ISSUER"),
-               ValidateAudience = true,
-               ValidAudience = builder.Configuration.GetSection("JWT").GetValue<string>("AUDIENCE"),
-               ValidateLifetime = true,
-               LifetimeValidator = CustomLifetimeValidator,
-               IssuerSigningKey = SSK,
-               ValidateIssuerSigningKey = true,
-           };
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration.GetSection("JWT").GetValue<string>("ISSUER"),
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration.GetSection("JWT").GetValue<string>("AUDIENCE"),
+            ValidateLifetime = true,
+            LifetimeValidator = CustomLifetimeValidator,
+            IssuerSigningKey = SSK,
+            ValidateIssuerSigningKey = true
+        };
 
-           options.Events = new JwtBearerEvents
-           {
-               OnMessageReceived = context =>
-               {
-                   var accessToken = context.Request.Query["access_token"];
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
 
-                   var path = context.HttpContext.Request.Path;
-                   if (!string.IsNullOrEmpty(accessToken) &&
-                       (path.StartsWithSegments("/api/live")))
-                   {
-                       var token = accessToken.ToString();
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    path.StartsWithSegments("/api/live"))
+                {
+                    var token = accessToken.ToString();
 
-                       context.Token = token.Split(' ').LastOrDefault();
-                   }
-                   return Task.CompletedTask;
-               }
-           };
-       });
+                    context.Token = token.Split(' ').LastOrDefault();
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 
 builder.Services.AddAutoMapper(config =>
@@ -112,18 +115,14 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin();
     });
     options.AddPolicy("signalr", builder => builder
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-
-              .AllowCredentials()
-              .SetIsOriginAllowed(hostName => true
-              ));
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        .SetIsOriginAllowed(hostName => true
+        ));
 });
 
-builder.Services.AddSignalR(options =>
-{
-    options.EnableDetailedErrors = true;
-});
+builder.Services.AddSignalR(options => { options.EnableDetailedErrors = true; });
 
 builder.Services.AddValidatorsFromAssemblyContaining<RegistrationDTOValidator>();
 builder.Services.AddFluentValidationAutoValidation();
@@ -151,6 +150,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
@@ -164,17 +164,14 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ConsoleHub>("/api/live/console");
 
-string path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-if (!Directory.Exists(path))
-{
-    Directory.CreateDirectory(path);
-}
+var path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
-FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
+var provider = new FileExtensionContentTypeProvider();
 provider.Mappings[".json"] = "application/json";
 provider.Mappings[".webmanifest"] = "application/manifest+json";
 
-app.UseStaticFiles(new StaticFileOptions()
+app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(path),
     RequestPath = new PathString("/static"),

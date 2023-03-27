@@ -1,85 +1,82 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace backend.API.Controllers
+namespace backend.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class StudentController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StudentController : ControllerBase
+    [HttpGet("get-register-data/{subjectId}/{isExtended}")]
+    public IActionResult GetRegisterData(int subjectId, bool isExtended)
     {
-        [HttpGet("get-register-data/{subjectId}/{isExtended}")]
-        public IActionResult GetRegisterData(int subjectId, bool isExtended)
+        var RegisterData = new List<dynamic>();
+
+        Thread.Sleep(1000);
+
+        RegisterData.Add(new
         {
-            List<dynamic> RegisterData = new List<dynamic>();
-
-            Thread.Sleep(1000);
-
-            RegisterData.Add(new
+            header = "Відвідування",
+            items = new List<dynamic>
             {
-                header = "Відвідування",
+                new
+                {
+                    title = "Відвідування",
+                    value = "0/0",
+                    name = Guid.NewGuid().ToString()
+                }
+            }
+        });
+
+        var random = new Random();
+
+
+        for (var i = 0; i <= random.Next(6, 15); i++)
+        {
+            var obj = new
+            {
+                header = "ЛР " + i,
                 items = new List<dynamic>
                 {
                     new
                     {
-                        title = "Відвідування",
-                        value = "0/0",
-                        name = Guid.NewGuid().ToString(),
+                        title = "Загальна",
+                        value = random.Next(3, 5),
+                        name = Guid.NewGuid().ToString()
                     }
                 }
-            });
+            };
 
-            var random = new Random();
-
-
-            for (int i = 0; i <= random.Next(6, 15); i++)
+            if (isExtended)
             {
-
-                var obj = new
+                obj.items.Add(new
                 {
-                    header = "ЛР " + i,
-                    items = new List<dynamic>
-                    {
-                        new
-                        {
-                            title = "Загальна",
-                            value = random.Next(3, 5),
-                            name = Guid.NewGuid().ToString(),
-                        }
-                    }
-                };
-
-                if (isExtended)
-                {
+                    title = "Звіт",
+                    value = random.Next(3, 5),
+                    name = Guid.NewGuid().ToString(),
+                    id = Guid.NewGuid().ToString()
+                });
+                if (random.Next(0, 3) == 2)
                     obj.items.Add(new
                     {
-                        title = "Звіт",
+                        title = "Якість",
                         value = random.Next(3, 5),
                         name = Guid.NewGuid().ToString(),
                         id = Guid.NewGuid().ToString()
                     });
-                    if (random.Next(0, 3) == 2)
-                        obj.items.Add(new
-                        {
-                            title = "Якість",
-                            value = random.Next(3, 5),
-                            name = Guid.NewGuid().ToString(),
-                            id = Guid.NewGuid().ToString()
-                        });
-                    if (random.Next(0, 3) == 2)
-                        obj.items.Add(new
-                        {
-                            title = "Захист",
-                            value = random.Next(3, 5),
-                            name = Guid.NewGuid().ToString(),
-                            id = Guid.NewGuid().ToString()
-                        });
-                }
-
-                RegisterData.Add(obj);
+                if (random.Next(0, 3) == 2)
+                    obj.items.Add(new
+                    {
+                        title = "Захист",
+                        value = random.Next(3, 5),
+                        name = Guid.NewGuid().ToString(),
+                        id = Guid.NewGuid().ToString()
+                    });
             }
 
-
-
-            return Ok(RegisterData);
+            RegisterData.Add(obj);
         }
+
+
+        return Ok(RegisterData);
     }
 }

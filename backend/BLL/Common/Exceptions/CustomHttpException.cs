@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
-namespace backend.BLL.Common.Exceptions
+namespace backend.BLL.Common.Exceptions;
+
+public class CustomHttpException : Exception
 {
-    public class CustomHttpException : Exception
+    public CustomHttpException(string message, HttpStatusCode code = HttpStatusCode.BadRequest) : base(message)
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public CustomHttpException(string message, HttpStatusCode code = HttpStatusCode.BadRequest) : base(message)
-        {
-            StatusCode = code;
-        }
+        StatusCode = code;
     }
+
+    public HttpStatusCode StatusCode { get; set; }
 }

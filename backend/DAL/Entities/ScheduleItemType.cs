@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace backend.DAL.Entities;
 
-namespace backend.DAL.Entities
+public class ScheduleItemType
 {
-    public class ScheduleItemType
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<ScheduleItem> ScheduleItems { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public ICollection<ScheduleItem> ScheduleItems { get; set; }
 }

@@ -1,8 +1,7 @@
-﻿namespace backend.BLL.Common.VMs.Schedule
+﻿namespace backend.BLL.Common.VMs.Schedule;
+
+public class ScheduleDayViewModel
 {
-    public class ScheduleDayViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
 }

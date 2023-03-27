@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace backend.BLL.Common.DTOs.Account
+namespace backend.BLL.Common.DTOs.Account;
+
+public class RegistrationDTOValidator : AbstractValidator<RegistrationDTO>
 {
-    public class RegistrationDTOValidator: AbstractValidator<RegistrationDTO>
+    public RegistrationDTOValidator()
     {
-        public RegistrationDTOValidator()
-        {
-            RuleFor(x => x.Email).EmailAddress().NotEmpty();
-        }
+        RuleFor(x => x.Email).EmailAddress().NotEmpty();
     }
 }

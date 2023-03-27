@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace backend.BLL.Services.Interfaces;
 
-namespace backend.BLL.Services.Interfaces
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendEmailAsync(string to, string subject, string body);
-    }
+    Task SendEmailAsync(string to, string subject, string body);
 }

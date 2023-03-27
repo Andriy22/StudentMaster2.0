@@ -1,5 +1,5 @@
 ﻿namespace backend.BLL.Services.Interfaces;
 
-internal class IStudentService
+internal interface IAttendenceService
 {
 }

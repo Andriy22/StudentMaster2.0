@@ -30,7 +30,7 @@ public class GroupController : ControllerBase
     }
 
     [HttpGet("get-group-subjects/{groupId}")]
-    [Authorize(Roles = "Admin,Teacher")]
+    [Authorize(Roles = "Admin,Teacher,Student")]
     public async Task<IActionResult> GetGroupSubjects(int groupId)
     {
         return Ok(await _groupService.GetGroupSubjects(groupId));

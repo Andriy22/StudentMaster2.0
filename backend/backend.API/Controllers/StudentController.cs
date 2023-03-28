@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using backend.BLL.Common.Exceptions;
+using backend.BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.API.Controllers;
 
@@ -6,77 +9,30 @@ namespace backend.API.Controllers;
 [ApiController]
 public class StudentController : ControllerBase
 {
-    [HttpGet("get-register-data/{subjectId}/{isExtended}")]
-    public IActionResult GetRegisterData(int subjectId, bool isExtended)
+    private readonly IStudentService _studentService;
+    private readonly IGroupService _groupService;
+
+    public StudentController(IStudentService studentService, IGroupService groupService)
     {
-        var RegisterData = new List<dynamic>();
+        _studentService = studentService;
+        _groupService = groupService;
+    }
 
-        Thread.Sleep(1000);
+    [HttpGet("get-subjects")]
+    [Authorize(Roles="Student")]
+    public async Task<IActionResult> GetSubjects()
+    {
+        var group = await _groupService.GetGroupByStudentId(User.Identity.Name);
 
-        RegisterData.Add(new
-        {
-            header = "Відвідування",
-            items = new List<dynamic>
-            {
-                new
-                {
-                    title = "Відвідування",
-                    value = "0/0",
-                    name = Guid.NewGuid().ToString()
-                }
-            }
-        });
+        if (group is null) throw new CustomHttpException("Invalid group");
 
-        var random = new Random();
+        return Ok(await _groupService.GetGroupSubjects(group.Id));
+    }
 
-
-        for (var i = 0; i <= random.Next(6, 15); i++)
-        {
-            var obj = new
-            {
-                header = "ЛР " + i,
-                items = new List<dynamic>
-                {
-                    new
-                    {
-                        title = "Загальна",
-                        value = random.Next(3, 5),
-                        name = Guid.NewGuid().ToString()
-                    }
-                }
-            };
-
-            if (isExtended)
-            {
-                obj.items.Add(new
-                {
-                    title = "Звіт",
-                    value = random.Next(3, 5),
-                    name = Guid.NewGuid().ToString(),
-                    id = Guid.NewGuid().ToString()
-                });
-                if (random.Next(0, 3) == 2)
-                    obj.items.Add(new
-                    {
-                        title = "Якість",
-                        value = random.Next(3, 5),
-                        name = Guid.NewGuid().ToString(),
-                        id = Guid.NewGuid().ToString()
-                    });
-                if (random.Next(0, 3) == 2)
-                    obj.items.Add(new
-                    {
-                        title = "Захист",
-                        value = random.Next(3, 5),
-                        name = Guid.NewGuid().ToString(),
-                        id = Guid.NewGuid().ToString()
-                    });
-            }
-
-            RegisterData.Add(obj);
-        }
-
-
-        return Ok(RegisterData);
+    [HttpGet("get-register-data/{subjectId}/{isExtended}")]
+    [Authorize(Roles = "Student")]
+    public async Task<IActionResult> GetRegisterData(int subjectId, bool isExtended)
+    {
+        return Ok(await _studentService.GetRegisterDataAsync(User.Identity.Name, subjectId, isExtended));
     }
 }

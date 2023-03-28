@@ -41,13 +41,17 @@ const routes: Routes = [
         path: 'teacher',
         loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule),
         data: {
-          permissions: { only: 'Teacher', redirectTo: '/dashboard' },
+          permissions: { only: 'Teacher', redirectTo: '/student/register' },
         },
         canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'student',
         loadChildren: () => import('./student/student.module').then(m => m.StudentModule),
+        data: {
+          permissions: { only: 'Student', redirectTo: '/403' },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
     ],
   },

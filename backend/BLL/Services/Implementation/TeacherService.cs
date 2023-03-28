@@ -28,6 +28,7 @@ public class TeacherService : ITeacherService
     private readonly UserManager<User> _userManager;
     private readonly IRepository<User> _userRepository;
     private readonly IRepository<Work> _workRepository;
+    private readonly IAttendanceService _attendanceService;
 
     public TeacherService(IRepository<Group> groupRepository,
         IRepository<Subject> subjectRepository,
@@ -41,7 +42,8 @@ public class TeacherService : ITeacherService
         IRepository<ScheduleItem> scheduleItemRepository,
         IRepository<Schedule> scheduleRepository,
         IGroupService groupService,
-        IRepository<Attendance> attendanceRepository)
+        IRepository<Attendance> attendanceRepository, 
+        IAttendanceService attendanceService)
     {
         _groupRepository = groupRepository;
         _subjectRepository = subjectRepository;
@@ -56,6 +58,7 @@ public class TeacherService : ITeacherService
         _scheduleRepository = scheduleRepository;
         _groupService = groupService;
         _attendanceRepository = attendanceRepository;
+        _attendanceService = attendanceService;
     }
 
     public async Task AddMarkAsync(string studentId, int criteriaId, int mark, string teacherId)
@@ -175,9 +178,6 @@ public class TeacherService : ITeacherService
 
         if (subject is null) throw new CustomHttpException("Invalid group id");
 
-        var attendeCount = _attendanceRepository.GetQueryable(x => x.SubjectId == subjectId).GroupBy(x => x.Date)
-            .Count();
-
         var result = new List<List<RegisterRowViewModel>>();
 
         foreach (var item in group.Students)
@@ -203,17 +203,17 @@ public class TeacherService : ITeacherService
 
 
             var attendence = await _attendanceRepository
-                .GetQueryable(x => x.StudentId == item.Id && x.SubjectId == subjectId).GroupBy(x => x.Date)
+                .GetQueryable(x => x.StudentId == item.Id && x.SubjectId == subjectId && x.IsPresent).GroupBy(x => x.Date)
                 .ToListAsync();
 
             rowData.Items.Add(new RegisterItemViewModel
             {
                 Editable = false,
-                Id = "visiting",
+                Id = item.Id,
                 Limit = 0,
                 Name = "visiting",
                 Title = "Відвідування",
-                Value = $"{attendence.Count}/{attendeCount}"
+                Value = $"{attendence.Count}/{(await _attendanceService.GetAttendanceDaysAsync(groupId, subjectId)).Count}"
             });
 
             row.Add(rowData);

@@ -1,25 +1,45 @@
-<div class="container-fluid">
-  <div class="register-title">Журнал</div>
-  <div class="ma-5">
-    <mat-slide-toggle
-      (change)="onExtendChange($event)"
-      [(ngModel)]="isExtended"
-      [disabled]="isLoading"
-      aria-label="Розширена версія"
-      class="register-control"
-      color="warn" size="large">
-      <span class="register-control">
-        Розширена версія
-      </span>
-    </mat-slide-toggle>
-    <br>
-    <br>
-    <mat-form-field appearance="fill" class="col-md-2 col-12">
-      <mat-label>Приховати роботи</mat-label>
-      <mat-select (valueChange)="onHiddenChange($event)" [(ngModel)]="groupedColumns" [disabled]="isLoading" multiple>
-        <mat-option *ngFor="let item of this.allWorks" [value]="item">{{item}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<div class="container-fluid col-12">
+  <div>
+    <br/>
+    <div class="row">
+      <div class="col-md-2 col-12">
+        <mat-form-field class="col-12">
+          <mat-label>Оберіть предмет</mat-label>
+          <mat-select (valueChange)="onSubjectChange($event)" [(ngModel)]="selectedSubjectId" [disabled]="isLoading ">
+            <mat-option *ngFor="let item of this.subjects" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-2 col-12">
+        <mat-form-field class="col-12">
+          <mat-label>Приховати роботи</mat-label>
+          <mat-select (valueChange)="applyFilter($event)" [(ngModel)]="filteredColumns" [disabled]="isLoading "
+                      multiple>
+            <mat-option *ngFor="let item of this.allWorks" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4 col-12">
+        <div class="row control-box">
+          <mat-slide-toggle
+            (change)="onExtendChange($event)"
+            [(ngModel)]="isExtended"
+            [disabled]="isLoading"
+            aria-label="Розширена версія"
+            class="register-control col-md-6 col-12"
+            color="warn"
+            size="large">
+            <span class="register-control-text">
+              Розширена версія
+            </span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
   </div>
 
   <br>
@@ -32,25 +52,31 @@
   </mat-progress-bar>
 
   <div class="table-responsive">
-    <table *ngIf="!isLoading" [dataSource]="dataSource" class="mat-elevation-z8" fixedLayout mat-table>
-      <ng-container *ngFor="let col of groups" [matColumnDef]="col.header">
+    <table *ngIf="!isLoading" [dataSource]="dataSource" class="mat-elevation-z8 mat-table rounded" fixedLayout
+           mat-table>
+      <ng-container *ngFor="let col of groups" [matColumnDef]="col.header" [sticky]="col?.key === 'student'">
         <th *matHeaderCellDef [attr.colspan]="col.colSpan" class="text-center table-header mat-cell" mat-header-cell>
           {{col.header}}
         </th>
       </ng-container>
 
-      <ng-container *ngFor="let col of columnsSchema" [matColumnDef]="col.key">
+      <ng-container *ngFor="let col of columnsSchema" [matColumnDef]="col.key" [sticky]="col.key === 'student'">
         <th *matHeaderCellDef class="table-header text-center mat-cell" mat-header-cell>
           {{col.title}}
         </th>
-        <td *matCellDef="let element" class="table-cell text-center mat-cell" mat-cell>
-          {{element[col.key]}}
+        <td *matCellDef="let element" class="table-cell text-center mat-cell" mat-cell style="width: 100px">
+          <span (click)="showVisiting($event, col.key, element[col.key + '_id'])"
+                style="cursor: pointer">{{element[col.key]}}</span>
+
         </td>
       </ng-container>
 
-      <tr *matHeaderRowDef="groupedColumns" mat-header-row></tr>
-      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matHeaderRowDef="groupedColumns; sticky: true" mat-header-row></tr>
+      <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
       <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
     </table>
   </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 30, 40, 50]" class="mat-paginator-sticky">
+  </mat-paginator>
+
 </div>

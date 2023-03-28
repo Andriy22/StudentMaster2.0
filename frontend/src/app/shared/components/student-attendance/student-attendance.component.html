@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Відвідування студента</h2>
+<div mat-dialog-content>
+
+  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+
+    <ng-container matColumnDef="date">
+      <th *matHeaderCellDef mat-header-cell> Дата</th>
+      <td *matCellDef="let element" mat-cell> {{element.date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isPresent">
+      <th *matHeaderCellDef mat-header-cell> Присутність</th>
+      <td *matCellDef="let element" mat-cell>
+        <span *ngIf="element.isPresent" style="color: green">Так</span>
+        <span *ngIf="!element.isPresent" style="color: red">Ні</span>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    (click)="cancel()"
+    [disabled]=" this.isLoading"
+    [loading]="this.isLoading"
+    color="accent"
+    mat-stroked-button
+    style="margin-left: 1rem; margin-right: 1rem;">
+    Закрити
+  </button>
+</div>

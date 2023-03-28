@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TeacherRegisterAddWorkComponent } from './add-work/add-work.component';
 import { SubjectInfoModel } from '@shared/models/subject-info.model';
 import { ToolsService } from '@shared/services/tools.service';
+import { StudentAttendanceComponent } from '@shared/components/student-attendance/student-attendance.component';
 
 @Component({
   selector: 'app-teacher-register',
@@ -175,6 +176,15 @@ export class TeacherRegisterComponent implements OnInit {
           this.loadRegisterData();
         });
     });
+  }
+
+  showVisiting($event: MouseEvent, key: string, id: string) {
+    const dialogRef = this.dialog
+      .open(StudentAttendanceComponent, {
+        width: '50%',
+        data: { subjectId: this.selectedSubjectId, studentId: id },
+      })
+      .afterClosed();
   }
 
   private reset() {

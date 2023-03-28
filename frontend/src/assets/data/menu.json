@@ -1,6 +1,28 @@
 {
   "menu": [
     {
+      "route": "/teacher/groups",
+      "name": "register",
+      "type": "link",
+      "icon": "dashboard",
+      "permissions": {
+        "only": [
+          "Student"
+        ]
+      }
+    },
+    {
+      "route": "/student/schedule",
+      "name": "schedule",
+      "type": "link",
+      "icon": "schedule",
+      "permissions": {
+        "only": [
+          "Student"
+        ]
+      }
+    },
+    {
       "route": "/teacher",
       "name": "dashboard",
       "type": "link",

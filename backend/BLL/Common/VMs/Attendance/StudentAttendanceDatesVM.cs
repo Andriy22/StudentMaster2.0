@@ -1,6 +1,7 @@
 ﻿namespace backend.BLL.Common.VMs.Attendance;
 
-public class StudentAttendanceDatesVM
+public class StudentAttendanceDateVM
 {
-    public List<string> Dates { get; set; }
+    public string Date { get; set; }
+    public bool IsPresent { get; set; }
 }

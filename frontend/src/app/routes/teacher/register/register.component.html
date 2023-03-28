@@ -81,7 +81,9 @@
           {{col.title}}
         </th>
         <td *matCellDef="let element" class="table-cell text-center mat-cell" mat-cell style="width: 100px">
-          <span *ngIf="!isEdit || element[col.key + '_editable'] === 'false'">{{element[col.key]}}</span>
+          <span (click)="showVisiting($event, col.key, element[col.key + '_id'])"
+                *ngIf="!isEdit || element[col.key + '_editable'] === 'false'"
+                style="cursor: pointer">{{element[col.key]}}</span>
 
           <mat-select (valueChange)="onMarkChange($event, col.key, element[col.key + '_id'])"
                       *ngIf="isEdit && element[col.key + '_editable'] === 'true'"

@@ -27,6 +27,8 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<ScheduleDay> ScheduleDays { get; set; }
     public DbSet<ScheduleItemType> ScheduleItemTypes { get; set; }
     public DbSet<Attendance> Attendances { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
+    public DbSet<Ban> Bans { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

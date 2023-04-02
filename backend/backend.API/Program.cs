@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using backend.API.Hubs;
 using backend.API.Middleware;
+using backend.API.Providers;
 using backend.API.Services;
 using backend.BLL.Common.DTOs.Account;
 using backend.BLL.Common.Mappings;
@@ -15,6 +16,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -128,6 +130,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<RegistrationDTOValidator>()
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
@@ -165,6 +169,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ConsoleHub>("/api/live/console");
+app.MapHub<ChatHub>("/api/live/chat");
 
 var path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
 if (!Directory.Exists(path)) Directory.CreateDirectory(path);

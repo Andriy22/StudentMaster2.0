@@ -17,9 +17,9 @@ export class TokenService implements OnDestroy {
   private refresh$ = new Subject<BaseToken | undefined>();
   private timer$?: Subscription;
 
-  private _token?: BaseToken;
-
   constructor(private store: LocalStorageService, private factory: TokenFactory) {}
+
+  private _token?: BaseToken;
 
   private get token(): BaseToken | undefined {
     if (!this._token) {
@@ -55,6 +55,10 @@ export class TokenService implements OnDestroy {
 
   getBearerToken(): string {
     return this.token?.getBearerToken() ?? '';
+  }
+
+  getAccessToken(): string {
+    return this.token?.access_token ?? '';
   }
 
   getRefreshToken(): string | void {

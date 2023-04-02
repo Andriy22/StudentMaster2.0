@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { StudentRegisterDataModel } from '@shared/models/student-register-data.model';
 import { Observable } from 'rxjs';
 import { SubjectShortInfoModel } from '@shared/models/subject-short-info.model';
+import { ScheduleItemViewModel } from '@shared/models/schedule.models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +23,11 @@ export class StudentService {
 
   public getSubjects(): Observable<SubjectShortInfoModel[]> {
     return this.http.get<SubjectShortInfoModel[]>(`${environment.apiUrl}/student/get-subjects`);
+  }
+
+  public getScheduleItemsByDay(dayId: number): Observable<ScheduleItemViewModel[]> {
+    return this.http.get<ScheduleItemViewModel[]>(
+      `${environment.apiUrl}/student/get-schedule/${dayId}`
+    );
   }
 }

@@ -6,7 +6,8 @@
     "subjects": "Предмети",
     "group": "Групи",
     "schedule": "Розклад",
-    "register": "Журнал"
+    "register": "Журнал",
+    "chats": "Чат групи"
   },
   "validations": {
     "required": "This field is required",

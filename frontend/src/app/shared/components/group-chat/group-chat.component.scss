@@ -1,0 +1,17 @@
+.chat {
+  height: 400px;
+  overflow-y: scroll;
+
+  overflow-wrap: break-word;
+}
+
+.mat-mdc-list-item * {
+  word-wrap: break-word !important;
+  white-space: pre-line !important;
+}
+
+hr {
+  height: 1px;
+  background-color: #ccc;
+  border: none;
+}

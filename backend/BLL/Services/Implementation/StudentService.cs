@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using backend.BLL.Common.Exceptions;
 using backend.BLL.Common.VMs.Register;
 using backend.BLL.Common.VMs.Schedule;
+using backend.BLL.Common.VMs.Subject;
 using backend.BLL.Services.Interfaces;
 using backend.DAL.Entities;
 using backend.DAL.Interfaces;
@@ -22,8 +23,9 @@ namespace backend.BLL.Services.Implementation
         private readonly IAttendanceService _attendanceService;
         private readonly IRepository<Work> _workRepository;
         private readonly IRepository<Grade> _gradeRepository;
+        private readonly IRepository<Schedule> _scheduleRepository;
 
-        public StudentService(IRepository<User> userRepository, IGroupService groupService, IRepository<Subject> subjectRepository, IRepository<Attendance> attendanceRepository, IAttendanceService attendanceService, IRepository<Work> workRepository, IRepository<Grade> gradeRepository)
+        public StudentService(IRepository<User> userRepository, IGroupService groupService, IRepository<Subject> subjectRepository, IRepository<Attendance> attendanceRepository, IAttendanceService attendanceService, IRepository<Work> workRepository, IRepository<Grade> gradeRepository, IRepository<Schedule> scheduleRepository)
         {
             _userRepository = userRepository;
             _groupService = groupService;
@@ -32,6 +34,7 @@ namespace backend.BLL.Services.Implementation
             _attendanceService = attendanceService;
             _workRepository = workRepository;
             _gradeRepository = gradeRepository;
+            _scheduleRepository = scheduleRepository;
         }
 
         public async Task<List<List<RegisterRowViewModel>>> GetRegisterDataAsync(string studentId, int subjectId, bool isExtended)
@@ -50,22 +53,8 @@ namespace backend.BLL.Services.Implementation
             {
                 var row = new List<RegisterRowViewModel>();
 
-                var rowData = new RegisterRowViewModel("Студент", "student");
 
-                rowData.Items.Add(new RegisterItemViewModel
-                {
-                    Editable = false,
-                    Id = item.Id,
-                    Limit = 0,
-                    Name = "student",
-                    Title = "ПІБ",
-                    Value = $"{item.FirstName} {item.Name} {item.LastName}"
-                });
-
-                row.Add(rowData);
-
-
-                rowData = new RegisterRowViewModel("Відвідування", "visiting");
+                var rowData = new RegisterRowViewModel("Відвідування", "visiting");
 
 
                 var attendence = await _attendanceRepository
@@ -113,9 +102,44 @@ namespace backend.BLL.Services.Implementation
             return result;
         }
 
-        public Task<List<ScheduleItemViewModel>> GetScheduleAsync(int dayId, string teacherId)
+        public async Task<List<ScheduleItemViewModel>> GetScheduleAsync(int dayId, string studentId)
         {
-            throw new NotImplementedException();
+            var group = await _groupService.GetGroupByStudentId(studentId);
+
+            var schedule = await _scheduleRepository.GetQueryable(x => x.DayId == dayId && x.GroupId == group.Id)
+                .Include(x => x.Day)
+                .Include(x => x.ScheduleItems).ThenInclude(x => x.ScheduleItemType)
+                .Include(x => x.ScheduleItems).ThenInclude(x => x.Subject)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            if (schedule is null) return new List<ScheduleItemViewModel>();
+
+            return schedule.ScheduleItems.Select(itemSchedule => new ScheduleItemViewModel
+            {
+                ScheduleItemType = new ScheduleItemTypeViewModel
+                {
+                    Id = itemSchedule.ScheduleItemType.Id,
+                    Name = itemSchedule.ScheduleItemType.Name,
+                },
+                ScheduleDay = new ScheduleDayViewModel
+                {
+                    Id = schedule.Day.Id,
+                    Name = schedule.Day.Name,
+                },
+                Subject = itemSchedule.Subject.Name,
+                SubjectShortInfo = new SubjectShortInfoVM()
+                {
+                    Id = itemSchedule.Subject.Id,
+                    Name = itemSchedule.Subject.Name,
+                },
+                Start = itemSchedule.Start,
+                End = itemSchedule.End,
+                Comment = itemSchedule.Comment,
+                Url = itemSchedule.OnlineMeetingUrl,
+                Id = itemSchedule.Id,
+                Position = itemSchedule.Position
+            }).ToList();
         }
     }
 }

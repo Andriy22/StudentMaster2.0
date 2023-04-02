@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from '@env/environment';
 
-import { AdminLayoutComponent } from '../theme/admin-layout/admin-layout.component';
-import { AuthLayoutComponent } from '../theme/auth-layout/auth-layout.component';
+import { AdminLayoutComponent } from '@theme/admin-layout/admin-layout.component';
+import { AuthLayoutComponent } from '@theme/auth-layout/auth-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './sessions/login/login.component';
 import { RegisterComponent } from './sessions/register/register.component';
@@ -20,7 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'admin', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: '403', component: Error403Component },
       { path: '404', component: Error404Component },
@@ -49,7 +49,7 @@ const routes: Routes = [
         path: 'student',
         loadChildren: () => import('./student/student.module').then(m => m.StudentModule),
         data: {
-          permissions: { only: 'Student', redirectTo: '/403' },
+          permissions: { only: 'Student', redirectTo: '/dashboard' },
         },
         canActivate: [NgxPermissionsGuard],
       },

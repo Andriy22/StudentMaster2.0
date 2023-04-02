@@ -1,0 +1,40 @@
+<div class="col-md-12 col-12">
+  <div class="mat-content chat">
+    <mat-list>
+      <div mat-subheader>Чат групи</div>
+      <mat-list-item *ngFor="let msg of messages"
+                     lines="2" style="height: initial"
+      >
+        <mat-icon matListItemIcon><img
+          [src]="'https://localhost:7189/static/avatars/' + msg.senderAvatar"
+          alt="avatar"
+          class="avatar r-full"
+          matButtonIcon
+          width="34"
+        /></mat-icon>
+        <div matListItemTitle><b (click)="ban(msg.senderId)"
+                                 [style]="'color:' + msg.color + '; cursor: pointer;'"
+        >{{msg.senderFullName}}</b>
+          <small> ({{msg.date}})</small>:
+        </div>
+        <div matListItemLine>
+          <span>{{msg.message}}</span>
+        </div>
+
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <mat-card>
+    <div layout="row" layout-align="start center">
+      <mat-form-field flex floatPlaceholder="never" layout="row" style="width: 100%">
+        <textarea [(ngModel)]="this.message" matInput placeholder="Повідомленя..." style="width: 100%"></textarea>
+
+      </mat-form-field>
+      <button (click)="this.Send()" [disabled]="this.message.length == 0" color="primary" mat-button mat-raised-button
+              type="submit">Відправити
+      </button>
+
+    </div>
+  </mat-card>
+</div>

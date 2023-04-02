@@ -1,7 +1,7 @@
 {
   "menu": [
     {
-      "route": "/teacher/groups",
+      "route": "/student/register",
       "name": "register",
       "type": "link",
       "icon": "dashboard",
@@ -16,6 +16,17 @@
       "name": "schedule",
       "type": "link",
       "icon": "schedule",
+      "permissions": {
+        "only": [
+          "Student"
+        ]
+      }
+    },
+    {
+      "route": "/student/chats",
+      "name": "chats",
+      "type": "link",
+      "icon": "message",
       "permissions": {
         "only": [
           "Student"

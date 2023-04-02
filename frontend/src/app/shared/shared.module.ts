@@ -22,6 +22,7 @@ import { DisableControlDirective } from './directives/disable-control.directive'
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { ToObservablePipe } from './pipes/to-observable.pipe';
 import { StudentAttendanceComponent } from '@shared/components/student-attendance/student-attendance.component';
+import { GroupChatComponent } from './components/group-chat/group-chat.component';
 
 const MODULES: any[] = [
   CommonModule,
@@ -46,7 +47,7 @@ const PIPES: any[] = [SafeUrlPipe, ToObservablePipe];
 
 @NgModule({
   imports: [...MODULES],
-  exports: [...MODULES, ...COMPONENTS, ...DIRECTIVES, ...PIPES],
-  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC, ...DIRECTIVES, ...PIPES],
+  exports: [...MODULES, ...COMPONENTS, ...DIRECTIVES, ...PIPES, GroupChatComponent],
+  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC, ...DIRECTIVES, ...PIPES, GroupChatComponent],
 })
 export class SharedModule {}

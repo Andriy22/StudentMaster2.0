@@ -1,0 +1,60 @@
+<div class="container">
+  <mat-tab-group (selectedTabChange)="onDayChanged($event)" color="accent" mat-align-tabs="center"
+                 mat-stretch-tabs="true">
+    <mat-tab *ngFor="let day of scheduleDays" [label]="day.name" [tabIndex]="day.id">
+      <div class="table-responsive">
+        <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table style="width: 100%">
+          <ng-container matColumnDef="id">
+            <th *matHeaderCellDef mat-header-cell>No.</th>
+            <td *matCellDef="let element" mat-cell>{{ element.position }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="subject">
+            <th *matHeaderCellDef mat-header-cell>Предмет</th>
+            <td *matCellDef="let element" class="selection-col-limit" mat-cell>
+              {{element.subjectShortInfo.name}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th *matHeaderCellDef mat-header-cell>Тип заняття</th>
+            <td *matCellDef="let element" class="selection-col-limit" mat-cell>
+              {{element.scheduleItemType.name}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="start">
+            <th *matHeaderCellDef mat-header-cell>Початок</th>
+            <td *matCellDef="let element" class="time-col-limit" mat-cell>
+              {{element.start}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="end">
+            <th *matHeaderCellDef mat-header-cell>Кінець</th>
+            <td *matCellDef="let element" class="time-col-limit" mat-cell>
+              {{element.end}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="url">
+            <th *matHeaderCellDef mat-header-cell>Посилання</th>
+            <td *matCellDef="let element" mat-cell>
+              <a [href]="element.url" target="_blank">Перейти</a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="comment">
+            <th *matHeaderCellDef mat-header-cell>Коментарій</th>
+            <td *matCellDef="let element" mat-cell>
+              {{element.comment}}
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

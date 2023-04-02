@@ -9,8 +9,8 @@ namespace backend.API.Controllers;
 [ApiController]
 public class StudentController : ControllerBase
 {
-    private readonly IStudentService _studentService;
     private readonly IGroupService _groupService;
+    private readonly IStudentService _studentService;
 
     public StudentController(IStudentService studentService, IGroupService groupService)
     {
@@ -19,7 +19,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpGet("get-subjects")]
-    [Authorize(Roles="Student")]
+    [Authorize(Roles = "Student")]
     public async Task<IActionResult> GetSubjects()
     {
         var group = await _groupService.GetGroupByStudentId(User.Identity.Name);

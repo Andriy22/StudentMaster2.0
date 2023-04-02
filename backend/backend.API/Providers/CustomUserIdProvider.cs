@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace backend.API.Providers
+namespace backend.API.Providers;
+
+public class CustomUserIdProvider : IUserIdProvider
 {
-    public class CustomUserIdProvider : IUserIdProvider
+    public string GetUserId(HubConnectionContext connection)
     {
-        public string GetUserId(HubConnectionContext connection)
-        {
-            return connection.User?.Identity.Name;
-        }
+        return connection.User?.Identity.Name;
     }
 }

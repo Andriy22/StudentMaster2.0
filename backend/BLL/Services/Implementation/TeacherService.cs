@@ -16,6 +16,7 @@ namespace backend.BLL.Services.Implementation;
 public class TeacherService : ITeacherService
 {
     private readonly IRepository<Attendance> _attendanceRepository;
+    private readonly IAttendanceService _attendanceService;
     private readonly IRepository<EvaluationCriterion> _evaluationCriterionRepository;
     private readonly IRepository<Grade> _gradeRepository;
     private readonly IRepository<Group> _groupRepository;
@@ -28,7 +29,6 @@ public class TeacherService : ITeacherService
     private readonly UserManager<User> _userManager;
     private readonly IRepository<User> _userRepository;
     private readonly IRepository<Work> _workRepository;
-    private readonly IAttendanceService _attendanceService;
 
     public TeacherService(IRepository<Group> groupRepository,
         IRepository<Subject> subjectRepository,
@@ -42,7 +42,7 @@ public class TeacherService : ITeacherService
         IRepository<ScheduleItem> scheduleItemRepository,
         IRepository<Schedule> scheduleRepository,
         IGroupService groupService,
-        IRepository<Attendance> attendanceRepository, 
+        IRepository<Attendance> attendanceRepository,
         IAttendanceService attendanceService)
     {
         _groupRepository = groupRepository;
@@ -203,7 +203,8 @@ public class TeacherService : ITeacherService
 
 
             var attendence = await _attendanceRepository
-                .GetQueryable(x => x.StudentId == item.Id && x.SubjectId == subjectId && x.IsPresent).GroupBy(x => x.Date)
+                .GetQueryable(x => x.StudentId == item.Id && x.SubjectId == subjectId && x.IsPresent)
+                .GroupBy(x => x.Date)
                 .ToListAsync();
 
             rowData.Items.Add(new RegisterItemViewModel
@@ -213,7 +214,8 @@ public class TeacherService : ITeacherService
                 Limit = 0,
                 Name = "visiting",
                 Title = "Відвідування",
-                Value = $"{attendence.Count}/{(await _attendanceService.GetAttendanceDaysAsync(groupId, subjectId)).Count}"
+                Value =
+                    $"{attendence.Count}/{(await _attendanceService.GetAttendanceDaysAsync(groupId, subjectId)).Count}"
             });
 
             row.Add(rowData);
@@ -368,10 +370,7 @@ public class TeacherService : ITeacherService
 
         var subject = await _subjectRepository.GetByIdAsync(subjectId);
 
-        if (subject == null)
-        {
-            throw new CustomHttpException("Student not found");
-        }
+        if (subject == null) throw new CustomHttpException("Student not found");
 
 
         var atd = await _attendanceRepository

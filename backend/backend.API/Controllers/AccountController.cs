@@ -74,11 +74,11 @@ public class AccountController : ControllerBase
 
         var code = await _accountService.GenerateConfirmationCodeAsync(model.Email);
 
-        await _emailService.SendEmailAsync(model.Email, "StudentMaster Account Confirmation",
-            await _razorRenderService.RenderEmailConfirmationAsync(new ConfirmCodeVM
-            {
-                Code = code
-            }));
+        //await _emailService.SendEmailAsync(model.Email, "StudentMaster Account Confirmation",
+        //    await _razorRenderService.RenderEmailConfirmationAsync(new ConfirmCodeVM
+        //    {
+        //        Code = code
+        //    }));
 
         return Ok();
     }

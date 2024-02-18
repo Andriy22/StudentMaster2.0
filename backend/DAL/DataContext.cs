@@ -108,6 +108,19 @@ public class DataContext : IdentityDbContext<User>
             .WithMany(c => c.TeacherGroups)
             .HasForeignKey(sc => sc.GroupId);
 
+        builder.Entity<EducationMaterialGroup>()
+            .HasKey(e => new { e.EducationMaterialId, e.GroupId });
+
+        builder.Entity<EducationMaterialGroup>()
+            .HasOne(sc => sc.EducationMaterial)
+            .WithMany(s => s.Groups)
+            .HasForeignKey(sc => sc.EducationMaterialId);
+
+        builder.Entity<EducationMaterialGroup>()
+            .HasOne(sc => sc.Group)
+            .WithMany(c => c.EducationMaterials)
+            .HasForeignKey(sc => sc.GroupId);
+
         base.OnModelCreating(builder);
     }
 }

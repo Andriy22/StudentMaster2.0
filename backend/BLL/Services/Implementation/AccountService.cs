@@ -93,6 +93,7 @@ public class AccountService : IAccountService
             LastName = model.LastName,
             Name = model.Name,
             Created = DateTime.UtcNow,
+            EmailConfirmed = true,
             Img = new Attachment
             {
                 Path = FileConstants.DefaultAvatar

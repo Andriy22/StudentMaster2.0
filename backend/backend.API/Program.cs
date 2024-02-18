@@ -4,6 +4,7 @@ using backend.API.Hubs;
 using backend.API.Middleware;
 using backend.API.Providers;
 using backend.API.Services;
+using backend.BLL.Common.Consts;
 using backend.BLL.Common.DTOs.Account;
 using backend.BLL.Common.Mappings;
 using backend.BLL.Services.Implementation;
@@ -147,6 +148,7 @@ builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IEducationMaterialService, EducationMaterialService>();
 
 var app = builder.Build();
 
@@ -166,13 +168,18 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapControllers();
 app.MapHub<ConsoleHub>("/api/live/console");
 app.MapHub<ChatHub>("/api/live/chat");
 
-var path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+var path = Path.Combine(Directory.GetCurrentDirectory(), FileConstants.StaticFilesFolder);
 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+var avatarsPath = Path.Combine(path, FileConstants.AvatarFolder);
+if (!Directory.Exists(avatarsPath)) Directory.CreateDirectory(avatarsPath);
+
+var educationMaterialPath = Path.Combine(path, FileConstants.EducationMaterialsFolder);
+if (!Directory.Exists(educationMaterialPath)) Directory.CreateDirectory(educationMaterialPath);
 
 var provider = new FileExtensionContentTypeProvider();
 provider.Mappings[".json"] = "application/json";

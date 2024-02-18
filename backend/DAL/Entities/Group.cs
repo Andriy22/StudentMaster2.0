@@ -11,10 +11,18 @@ public class Group
     }
 
     public int Id { get; set; }
+
     public string Name { get; set; }
+
     public bool IsDeleted { get; set; }
+
     public ICollection<TeacherGroup> TeacherGroups { get; set; }
+
     public ICollection<User> Students { get; set; }
+
     public ICollection<Subject> Subjects { get; set; }
+
     public ICollection<Work> Works { get; set; }
+
+    public ICollection<EducationMaterialGroup> EducationMaterials { get; set; }
 }

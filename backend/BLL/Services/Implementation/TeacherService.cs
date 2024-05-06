@@ -10,6 +10,7 @@ using backend.DAL.Entities;
 using backend.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace backend.BLL.Services.Implementation;
 
@@ -19,7 +20,7 @@ public class TeacherService : ITeacherService
     private readonly IAttendanceService _attendanceService;
     private readonly IRepository<EvaluationCriterion> _evaluationCriterionRepository;
     private readonly IRepository<Grade> _gradeRepository;
-    private readonly IRepository<Group> _groupRepository;
+    private readonly IRepository<DAL.Entities.Group> _groupRepository;
     private readonly IGroupService _groupService;
     private readonly IRepository<ScheduleDay> _scheduleDayRepository;
     private readonly IRepository<ScheduleItem> _scheduleItemRepository;
@@ -30,7 +31,7 @@ public class TeacherService : ITeacherService
     private readonly IRepository<User> _userRepository;
     private readonly IRepository<Work> _workRepository;
 
-    public TeacherService(IRepository<Group> groupRepository,
+    public TeacherService(IRepository<DAL.Entities.Group> groupRepository,
         IRepository<Subject> subjectRepository,
         IRepository<User> userRepository,
         IRepository<TeacherGroup> teacherGroupRepository,
@@ -394,5 +395,54 @@ public class TeacherService : ITeacherService
         atd.IsPresent = attendance;
 
         _attendanceRepository.Edit(atd);
+    }
+
+    public async Task<List<SubjectInfoVM>> GetTeacherSubjectsAsync(string teacherId)
+    {
+        var teacher = await _userRepository.GetQueryable(x => x.Id == teacherId)
+            .Include(x => x.Subjects)
+            .FirstOrDefaultAsync();
+
+        if (teacher == null)
+        {
+            throw new CustomHttpException("Invalid teacher id!");
+        }
+
+        return teacher.Subjects.Where(x => x.IsDeleted == false).Select(x =>
+            new SubjectInfoVM
+            {
+                Id = x.Id,
+                IsDeleted = x.IsDeleted,
+                Name = x.Name
+            }).ToList();
+    }
+
+    public async Task<List<GroupInfoVM>> GetTeacherGroupsBySubjectAsync(string teacherId, int subjectId)
+    {
+        var teacher = await _userRepository.GetQueryable(x => x.Id == teacherId)
+           .Include(x => x.Subjects)
+           .FirstOrDefaultAsync();
+
+        if (teacher == null)
+        {
+            throw new CustomHttpException("Invalid teacher id!");
+        }
+        
+        var subject = await _subjectRepository.GetByIdAsync(subjectId);
+
+        if (subject == null)
+        {
+            throw new CustomHttpException("Invalid subject id!");
+        }
+
+        var groups = _teacherGroupRepository.GetQueryable(x => x.UserId == teacherId && x.Group.Subjects.Contains(subject))
+            .Include(x => x.Group.Subjects).Select(x => new GroupInfoVM
+            {
+                Id = x.Group.Id,
+                IsDeleted = x.Group.IsDeleted,
+                Name = x.Group.Name
+            }).ToList();
+
+        return groups;
     }
 }

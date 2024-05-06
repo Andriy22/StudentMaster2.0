@@ -7,6 +7,7 @@ import { SubjectInfoModel } from '@shared/models/subject-info.model';
 import { PresetViewModel } from '@shared/models/presets.models';
 import { Observable } from 'rxjs';
 import { ScheduleItemViewModel } from '@shared/models/schedule.models';
+import { isExtended } from '@angular/compiler-cli/src/ngtsc/shims/src/expando';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,10 @@ export class TeacherService {
 
   public getTeacherGroups() {
     return this.http.get<GroupInfoModel[]>(`${environment.apiUrl}/teacher/get-my-groups`);
+  }
+
+  public getTeacherGroupsBySubject(subjectId: number) {
+    return this.http.get<GroupInfoModel[]>(`${environment.apiUrl}/teacher/get-my-groups-by-subject/${subjectId}`);
   }
 
   public getPresets(groupId: number, subjectId: number) {
@@ -50,6 +55,12 @@ export class TeacherService {
   public getTeacherSubjectsInGroup(groupId: number) {
     return this.http.get<SubjectInfoModel[]>(
       `${environment.apiUrl}/teacher/get-my-subjects-in-group/${groupId}`
+    );
+  }
+
+  public getTeacherSubjects() {
+    return this.http.get<SubjectInfoModel[]>(
+      `${environment.apiUrl}/teacher/get-my-subjects`
     );
   }
 

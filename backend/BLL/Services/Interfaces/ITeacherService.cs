@@ -19,6 +19,8 @@ public interface ITeacherService
     Task<List<ScheduleItemViewModel>> GetScheduleAsync(int dayId, string teacherId);
     Task<List<GroupInfoVM>> GetTeacherGroupsAsync(string teacherId);
     Task<List<SubjectInfoVM>> GetTeacherSubjectsInGroupAsync(string teacherId, int groupId);
+    Task<List<SubjectInfoVM>> GetTeacherSubjectsAsync(string teacherId);
+    Task<List<GroupInfoVM>> GetTeacherGroupsBySubjectAsync(string teacherId, int subjectId);
     Task<List<StudentAttendanceVM>> GetStudentsAttendanceAsync(int groupId, int subjectId, DateTime date);
     Task SetStudentAttendanceAsync(string studentId, int subjectId, DateTime date, bool attendance);
 }

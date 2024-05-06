@@ -4,6 +4,7 @@ import { TeacherGroupsComponent } from './groups/groups.component';
 import { TeacherGroupComponent } from './group/group.component';
 import { TeacherDashboardComponent } from './dashboard/dashboard.component';
 import { TeacherScheduleComponent } from './schedule/schedule.component';
+import { TeacherMaterialsComponent } from './materials/materials.component';
 
 const routes: Routes = [
   { path: '', component: TeacherDashboardComponent },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'group/:id', component: TeacherGroupComponent },
   { path: 'dashboard', component: TeacherDashboardComponent },
   { path: 'schedule', component: TeacherScheduleComponent },
+  { path: 'materials', component: TeacherMaterialsComponent },
 ];
 
 @NgModule({

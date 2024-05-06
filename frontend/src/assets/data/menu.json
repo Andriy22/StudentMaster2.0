@@ -67,6 +67,17 @@
       }
     },
     {
+      "route": "/teacher/materials",
+      "name": "materials",
+      "type": "link",
+      "icon": "list",
+      "permissions": {
+        "only": [
+          "Teacher"
+        ]
+      }
+    },
+    {
       "route": "/admin",
       "name": "dashboard",
       "type": "link",

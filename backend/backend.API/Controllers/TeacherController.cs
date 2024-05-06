@@ -31,10 +31,24 @@ public class TeacherController : ControllerBase
     }
 
     [Authorize(Roles = "Teacher")]
+    [HttpGet("get-my-subjects")]
+    public async Task<IActionResult> GeyMySubjectsAsync()
+    {
+        return Ok(await _teacherService.GetTeacherSubjectsAsync(User.Identity.Name));
+    }
+
+    [Authorize(Roles = "Teacher")]
     [HttpGet("get-presets/{groupId}/{subjectId}")]
     public async Task<IActionResult> GetPresetsAsync(int groupId, int subjectId)
     {
         return Ok(await _teacherService.GetPresetsAsync(groupId, subjectId));
+    }
+
+    [Authorize(Roles = "Teacher")]
+    [HttpGet("get-my-groups-by-subject/{subjectId}")]
+    public async Task<IActionResult> GetMyGroupsAsync(int subjectId)
+    {
+        return Ok(await _teacherService.GetTeacherGroupsBySubjectAsync(User.Identity.Name, subjectId));
     }
 
     [Authorize(Roles = "Teacher")]
@@ -71,7 +85,6 @@ public class TeacherController : ControllerBase
 
         return Ok();
     }
-
 
     [Authorize(Roles = "Teacher")]
     [HttpGet("get-schedule/{dayId}")]

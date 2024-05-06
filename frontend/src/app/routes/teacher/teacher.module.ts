@@ -8,9 +8,11 @@ import { TeacherGroupComponent } from './group/group.component';
 import { TeacherDashboardComponent } from './dashboard/dashboard.component';
 import { TeacherScheduleComponent } from './schedule/schedule.component';
 import { TeacherGroupAttendanceComponent } from './group/attendance/attendance.component';
+import { TeacherMaterialsComponent } from './materials/materials.component';
+import { TeacherMaterialsAddEditMaterialComponent } from './materials/add-edit-material/add-edit-material.component';
 
-const COMPONENTS: any[] = [TeacherRegisterComponent, TeacherGroupsComponent, TeacherGroupComponent, TeacherDashboardComponent, TeacherScheduleComponent];
-const COMPONENTS_DYNAMIC: any[] = [TeacherRegisterAddWorkComponent, TeacherGroupAttendanceComponent];
+const COMPONENTS: any[] = [TeacherRegisterComponent, TeacherGroupsComponent, TeacherGroupComponent, TeacherDashboardComponent, TeacherScheduleComponent, TeacherMaterialsComponent];
+const COMPONENTS_DYNAMIC: any[] = [TeacherRegisterAddWorkComponent, TeacherGroupAttendanceComponent, TeacherMaterialsAddEditMaterialComponent];
 
 @NgModule({
   imports: [

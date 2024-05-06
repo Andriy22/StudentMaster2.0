@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\backend",
+    "\\backend\\backend.API",
+    "\\backend\\backend.API\\Controllers"
   ],
+  "SelectedNode": "\\backend\\backend.API\\Controllers\\EducationMaterialController.cs",
   "PreviewInSolutionExplorer": false
 }

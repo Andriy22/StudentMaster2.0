@@ -19,6 +19,7 @@ namespace backend.API.Controllers
         }
 
         [HttpGet("get-education-materials/{subjectId}/{groupId}")]
+        [Authorize(Roles = "Teacher,Admin,User")]
         public async Task<ActionResult<CrudEducationMaterialDto>> GetMaterialsAsync(int subjectId, int? groupId)
         {
             return Ok(await educationMaterialService.GetEducationMaterialsAsync(subjectId, groupId));

@@ -17,15 +17,15 @@ namespace backend.BLL.Services.Implementation
 
         private readonly IFileService fileService;
 
-        public EducationMaterialService(IRepository<EducationMaterialGroup> educationMaterialGroupRepos, 
-                                        IRepository<EducationMaterial> educationMaterialRepo, 
+        public EducationMaterialService(IRepository<EducationMaterialGroup> educationMaterialGroupRepos,
+                                        IRepository<EducationMaterial> educationMaterialRepo,
                                         UserManager<User> userManager,
                                         IFileService fileService)
         {
             this.educationMaterialGroupRepos = educationMaterialGroupRepos;
             this.educationMaterialRepo = educationMaterialRepo;
             this.userManager = userManager;
-            
+
             this.fileService = fileService;
         }
 
@@ -48,7 +48,7 @@ namespace backend.BLL.Services.Implementation
                     GroupId = x
                 }).ToList()
             };
-           
+
             educationMaterialRepo.Add(model);
         }
 
@@ -66,7 +66,7 @@ namespace backend.BLL.Services.Implementation
         {
             var model = await educationMaterialRepo.GetQueryable(x => x.Id == entity.Id).Include(x => x.Groups).FirstOrDefaultAsync();
 
-            if (entity.File != null && entity.Type == EducationMaterialType.File) 
+            if (entity.File != null && entity.Type == EducationMaterialType.File)
             {
                 model.Attachment = new Attachment
                 {
@@ -96,7 +96,7 @@ namespace backend.BLL.Services.Implementation
 
         public async Task<List<CrudEducationMaterialDto>> GetEducationMaterialsAsync(int subjectId, int? groupId = null)
         {
-            var entities = await educationMaterialRepo.GetQueryable(x => x.SubjectId == subjectId && (!groupId.HasValue || x.Groups.Any(g => g.GroupId == groupId)))
+            var entities = await educationMaterialRepo.GetQueryable(x => x.SubjectId == subjectId && (!groupId.HasValue || groupId == 0 || x.Groups.Any(g => g.GroupId == groupId)))
                                                       .Include(x => x.Attachment)
                                                       .Include(x => x.Groups)
                                                       .ToListAsync();

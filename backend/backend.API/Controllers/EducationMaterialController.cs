@@ -22,11 +22,12 @@ namespace backend.API.Controllers
         [Authorize(Roles = "Teacher,Admin,User")]
         public async Task<ActionResult<CrudEducationMaterialDto>> GetMaterialsAsync(int subjectId, int? groupId)
         {
+            groupId = groupId < 0 ? null : groupId;
             return Ok(await educationMaterialService.GetEducationMaterialsAsync(subjectId, groupId));
         }
 
         [HttpPost("create-education-material")]
-        public async Task<ActionResult> CreateEducationMaterialAsync(CrudEducationMaterialDto entity)
+        public async Task<ActionResult> CreateEducationMaterialAsync([FromForm]CrudEducationMaterialDto entity)
         {
             entity.UserId = User.Identity.Name;
 
@@ -36,7 +37,7 @@ namespace backend.API.Controllers
         }
 
         [HttpPut("edit-education-material")]
-        public async Task<ActionResult> EditEducationMaterialAsync(CrudEducationMaterialDto entity)
+        public async Task<ActionResult> EditEducationMaterialAsync([FromForm]CrudEducationMaterialDto entity)
         {
             entity.UserId = User.Identity.Name;
 
@@ -45,7 +46,7 @@ namespace backend.API.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete-education-material")]
+        [HttpDelete("delete-education-material/{id}")]
         public async Task<ActionResult> DeleteEducationMaterialAsync(int Id)
         {
             await educationMaterialService.DeleteEducationMaterialAsync(Id);

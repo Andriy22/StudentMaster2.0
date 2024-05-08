@@ -2,8 +2,8 @@ import { EducationMaterialType } from '@shared/enums/education-material-type.enu
 
 export interface CrudEducationMaterial {
   id: number;
-  title: number;
-  type: EducationMaterialType,
+  title: string;
+  type: EducationMaterialType;
   subjectId: number;
   url: string;
   userId: number;

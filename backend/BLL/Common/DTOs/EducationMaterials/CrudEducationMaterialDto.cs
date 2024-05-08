@@ -14,9 +14,9 @@ namespace backend.BLL.Common.DTOs.EducationMaterials
 
         public int SubjectId { get; set; }
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
 
         public string UserId { get; set; }
 

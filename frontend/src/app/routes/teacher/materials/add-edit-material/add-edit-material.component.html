@@ -6,47 +6,42 @@
         <mat-form-field appearance="fill" class="col-12">
           <input formControlName="title" matInput placeholder="Введіть назву роботи" required>
         </mat-form-field>
-        <mat-form-field appearance="fill"  class="col-12">
+        <mat-form-field appearance="fill" class="col-12">
           <mat-label>Оберіть тип</mat-label>
-          <mat-select  formControlName="type">
+          <mat-select formControlName="type">
             <mat-option value="0">Файл</mat-option>
             <mat-option value="1">Посилання</mat-option>
           </mat-select>
         </mat-form-field>
-        <div  class="col-12" *ngIf="firstFormGroup.controls.type.value === '0'">
-          <button type="button" mat-raised-button (click)="fileInput.click()">Оберіть файл</button>
-          <input hidden formControlName="path" #fileInput type="file">
+        <div *ngIf="firstFormGroup.controls.type.value === '0'" class="col-12">
+          <button (click)="fileInput.click()" mat-raised-button type="button">Оберіть файл</button>
+          <input #fileInput (change)="upload($event)" hidden type="file">
         </div>
-        <mat-form-field appearance="fill" class="col-12" *ngIf="firstFormGroup.controls.type.value === '1'">
-          <input formControlName="path"   matInput placeholder="Введіть посилання" required>
+        <mat-form-field *ngIf="firstFormGroup.controls.type.value === '1'" appearance="fill" class="col-12">
+          <input formControlName="path" matInput placeholder="Введіть посилання" required>
         </mat-form-field>
         <div>
           <button mat-button matStepperNext>Продовжити</button>
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" label="Готовий пресет">
-      <form [formGroup]="secondFormGroup">
+    <mat-step label="Налаштування">
+
       <mat-form-field appearance="fill" class="col-12">
-    <mat-label>Оберіть предмети</mat-label>
-    <mat-select [(ngModel)]="selectedGroupIds" multiple>
-        <mat-option *ngFor="let group of allGroups"
-                    [value]="group.id">
-          {{group.name}}
-        </mat-option>
+        <mat-label>Оберіть групи</mat-label>
+        <mat-select [(ngModel)]="selectedGroupIds" multiple>
+          <mat-option *ngFor="let group of allGroups"
+                      [value]="group.id.toString()">
+            {{ group.name }}
+          </mat-option>
 
-    </mat-select>
-  </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Назад</button>
-          <button mat-button matStepperNext>Продовжити</button>
-        </div>
-      </form>
-
+        </mat-select>
+      </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Назад</button>
-        <button  mat-button>Додати роботу</button>
+        <button (click)="onSubmit()" mat-button>Зберегти</button>
       </div>
+
     </mat-step>
 
   </mat-stepper>

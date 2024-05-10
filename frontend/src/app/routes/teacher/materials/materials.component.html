@@ -42,23 +42,13 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell style="width: 20%">Дії</th>
       <td *matCellDef="let row" mat-cell>
-
-        <!--        <button (click)="navigateToGroup(row.id)" color="primary" mat-icon-button-->
-        <!--                matTooltip="Перейти на сторінку групи">-->
-        <!--          <mat-icon>home</mat-icon>-->
-        <!--        </button>-->
-
-        <button (click)="edit(row)" color="accent" mat-icon-button matTooltip="Змінити назву групи">
+        <button (click)="edit(row)" color="accent" mat-icon-button matTooltip="Редагувати">
           <mat-icon>edit</mat-icon>
         </button>
         <button (click)="delete(row.id)" *ngIf="!row.isDeleted" color="warn"
-                mat-icon-button matTooltip="Змінити статус на активний">
+                mat-icon-button matTooltip="Видалити">
           <mat-icon>delete</mat-icon>
         </button>
-        <!--        <button (click)="changeState(row.id)" *ngIf="row.isDeleted" class="text-green-500"-->
-        <!--                mat-icon-button matTooltip="Змінити статус на деактивований">-->
-        <!--          <mat-icon>update</mat-icon>-->
-        <!--        </button>-->
       </td>
     </ng-container>
     <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>

@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TeacherService } from '@core/services/teacher.service';
 import { GroupInfoModel } from '@shared/models/group-info.model';
 import { AdditionalMaterialsService } from '@core/services/additional-materials.service';
 import { CrudEducationMaterial } from '@shared/models/education-material.models';
@@ -34,21 +33,34 @@ export class TeacherMaterialsAddEditMaterialComponent implements OnInit {
     public dialogRef: MatDialogRef<TeacherMaterialsAddEditMaterialComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
-    private teacherService: TeacherService,
     private materialsService: AdditionalMaterialsService
   ) {}
 
   onSubmit() {
     const formData = new FormData();
 
+    const id = this.data?.material?.id;
+
     formData.append('Title', this.firstFormGroup.controls.title.value?.toString() ?? '');
     formData.append('Type', this.firstFormGroup.controls.type.value?.toString() ?? '0');
-    formData.append('File', this.file as Blob);
     formData.append('Url', this.firstFormGroup.controls.path.value?.toString() ?? '0');
     formData.append('SubjectId', this.data?.subjectId ?? '0');
     formData.append('Groups', this.selectedGroupIds.join(','));
 
+    if (this.file) {
+      formData.append('File', this.file as Blob);
+    }
+
+    if (id) {
+      formData.append('id', id);
+
+      this.materialsService.editAdditionalMaterial(formData).subscribe(_ => {});
+      this.dialogRef.close();
+      return;
+    }
+
     this.materialsService.createAdditionalMaterial(formData).subscribe(_ => {});
+    this.dialogRef.close();
   }
 
   upload(event: Event) {

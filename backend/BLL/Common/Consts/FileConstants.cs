@@ -15,4 +15,9 @@ public static class FileConstants
     // ============================
     public static string EducationMaterialsFolder = "EducationMaterials";
 
+    // ============================
+    // Homeworks
+    // ============================
+    public static string HomeworksFolder = "Homeworks";
+
 }

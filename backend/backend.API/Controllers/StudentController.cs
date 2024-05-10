@@ -36,6 +36,13 @@ public class StudentController : ControllerBase
         return Ok(await _studentService.GetScheduleAsync(dayId, User.Identity.Name));
     }
 
+    [HttpGet("get-my-group")]
+    [Authorize(Roles = "Student")]
+    public async Task<IActionResult> GetStudentGroup()
+    {
+        return Ok(await _studentService.GetStudentGroupInfoAsync(User.Identity.Name));
+    }
+
     [HttpGet("get-register-data/{subjectId}/{isExtended}")]
     [Authorize(Roles = "Student")]
     public async Task<IActionResult> GetRegisterData(int subjectId, bool isExtended)

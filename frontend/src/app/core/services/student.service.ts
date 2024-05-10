@@ -5,6 +5,7 @@ import { StudentRegisterDataModel } from '@shared/models/student-register-data.m
 import { Observable } from 'rxjs';
 import { SubjectShortInfoModel } from '@shared/models/subject-short-info.model';
 import { ScheduleItemViewModel } from '@shared/models/schedule.models';
+import { GroupInfoModel } from '@shared/models/group-info.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,10 @@ export class StudentService {
 
   public getSubjects(): Observable<SubjectShortInfoModel[]> {
     return this.http.get<SubjectShortInfoModel[]>(`${environment.apiUrl}/student/get-subjects`);
+  }
+
+  public getMyGroup(): Observable<GroupInfoModel> {
+    return this.http.get<GroupInfoModel>(`${environment.apiUrl}/student/get-my-group`);
   }
 
   public getScheduleItemsByDay(dayId: number): Observable<ScheduleItemViewModel[]> {

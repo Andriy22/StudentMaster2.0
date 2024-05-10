@@ -24,6 +24,13 @@ export class AdditionalMaterialsService {
     );
   }
 
+  public editAdditionalMaterial(material: FormData) {
+    return this._http.put(
+      `${environment.apiUrl}/educationMaterial/edit-education-material`,
+      material
+    );
+  }
+
   public removeAdditionalMaterial(id: number) {
     return this._http.delete(
       `${environment.apiUrl}/educationMaterial/delete-education-material/${id}`

@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentRegisterComponent } from './register/register.component';
 import { StudentStudentScheduleComponent } from './student/schedule/schedule.component';
 import { StudentChatsComponent } from './chats/chats.component';
+import { StudentMaterialsComponent } from './materials/materials.component';
 
 const routes: Routes = [{ path: 'register', component: StudentRegisterComponent },
 { path: 'schedule', component: StudentStudentScheduleComponent },
-{ path: 'chats', component: StudentChatsComponent }
+{ path: 'chats', component: StudentChatsComponent },
+{ path: 'materials', component: StudentMaterialsComponent }
 ];
 
 @NgModule({

@@ -3,8 +3,11 @@
     "",
     "\\backend",
     "\\backend\\backend.API",
-    "\\backend\\backend.API\\Controllers"
+    "\\backend\\backend.API\\Controllers",
+    "\\backend\\BLL",
+    "\\backend\\BLL\\Services",
+    "\\backend\\BLL\\Services\\Implementation"
   ],
-  "SelectedNode": "\\backend\\backend.sln",
+  "SelectedNode": "\\backend\\BLL\\Services\\Implementation\\EducationMaterialService.cs",
   "PreviewInSolutionExplorer": false
 }

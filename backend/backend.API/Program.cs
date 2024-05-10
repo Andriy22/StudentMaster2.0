@@ -148,6 +148,7 @@ builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IHomeworkService, HomeworkService>();
 builder.Services.AddScoped<IEducationMaterialService, EducationMaterialService>();
 
 var app = builder.Build();
@@ -180,6 +181,9 @@ if (!Directory.Exists(avatarsPath)) Directory.CreateDirectory(avatarsPath);
 
 var educationMaterialPath = Path.Combine(path, FileConstants.EducationMaterialsFolder);
 if (!Directory.Exists(educationMaterialPath)) Directory.CreateDirectory(educationMaterialPath);
+
+var homeworkPath = Path.Combine(path, FileConstants.HomeworksFolder);
+if (!Directory.Exists(homeworkPath)) Directory.CreateDirectory(homeworkPath);
 
 var provider = new FileExtensionContentTypeProvider();
 provider.Mappings[".json"] = "application/json";

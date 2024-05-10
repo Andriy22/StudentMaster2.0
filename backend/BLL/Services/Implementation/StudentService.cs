@@ -1,4 +1,5 @@
 ﻿using backend.BLL.Common.Exceptions;
+using backend.BLL.Common.VMs.Group;
 using backend.BLL.Common.VMs.Register;
 using backend.BLL.Common.VMs.Schedule;
 using backend.BLL.Common.VMs.Subject;
@@ -99,7 +100,6 @@ public class StudentService : IStudentService
             result.Add(row);
         }
 
-
         return result;
     }
 
@@ -141,5 +141,19 @@ public class StudentService : IStudentService
             Id = itemSchedule.Id,
             Position = itemSchedule.Position
         }).ToList();
+    }
+
+    public async Task<GroupInfoVM> GetStudentGroupInfoAsync(string studentId)
+    {
+        var group = (await _userRepository.GetQueryable(x => x.Id == studentId).Include(x => x.Group).FirstOrDefaultAsync())?.Group;
+
+        if (group is null) throw new CustomHttpException("Invalid group");
+
+        return new GroupInfoVM
+        {
+            Id = group.Id,
+            Name = group.Name,
+            IsDeleted = group.IsDeleted
+        };
     }
 }

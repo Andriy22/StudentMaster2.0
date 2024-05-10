@@ -43,7 +43,6 @@ export class GroupChatComponent {
     this._hubConnection
       ?.start()
       .then(() => {
-        console.log(this.selectedGroup);
         this._hubConnection
           ?.invoke(
             'SwitchGroup',

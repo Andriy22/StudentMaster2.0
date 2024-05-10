@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Teacher,Admin")]
+    [Authorize(Roles = "Teacher,Admin,Student")]
     [ApiController]
     public class EducationMaterialController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace backend.API.Controllers
         }
 
         [HttpGet("get-education-materials/{subjectId}/{groupId}")]
-        [Authorize(Roles = "Teacher,Admin,User")]
+        [Authorize(Roles = "Teacher,Admin,Student")]
         public async Task<ActionResult<CrudEducationMaterialDto>> GetMaterialsAsync(int subjectId, int? groupId)
         {
             groupId = groupId < 0 ? null : groupId;

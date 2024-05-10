@@ -4,8 +4,9 @@ import { StudentRoutingModule } from './student-routing.module';
 import { StudentRegisterComponent } from './register/register.component';
 import { StudentStudentScheduleComponent } from './student/schedule/schedule.component';
 import { StudentChatsComponent } from './chats/chats.component';
+import { StudentMaterialsComponent } from './materials/materials.component';
 
-const COMPONENTS: any[] = [StudentRegisterComponent, StudentStudentScheduleComponent, StudentChatsComponent];
+const COMPONENTS: any[] = [StudentRegisterComponent, StudentStudentScheduleComponent, StudentChatsComponent, StudentMaterialsComponent];
 const COMPONENTS_DYNAMIC: any[] = [];
 
 @NgModule({

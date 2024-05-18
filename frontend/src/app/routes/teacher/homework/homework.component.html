@@ -1,3 +1,70 @@
-<page-header></page-header>
+<div class="container-fluid col-12">
+  <div>
+    <br />
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-2 col-12">
+        <mat-form-field class="col-12">
+          <mat-label>Оберіть предмет</mat-label>
+          <mat-select (valueChange)="onSubjectChange($event)" [(ngModel)]="selectedSubjectId" [disabled]="isLoading ">
+            <mat-option *ngFor="let item of this.subjects" [value]="item.id">{{ item.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-<p>homework works!</p>
+    </div>
+      <div>
+        <button (click)="addHomework()" aria-label="Додати нову роботу" color="primary" mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+  </div>
+</div>
+  <div class="container-fluid mat-elevation-z8">
+    <div class="row">
+      <mat-form-field class="col-4">
+        <mat-label>Пошук</mat-label>
+        <input (keyup)="applyFilter($event)" class="8" matInput placeholder="Пошук...">
+      </mat-form-field>
+    </div>
+    <br>
+    <table [dataSource]="dataSource" mat-table matSort>
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Назва</th>
+        <td *matCellDef="let row" mat-cell>
+          <p> {{ row.title }} </p>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Тип</th>
+        <td *matCellDef="let row" mat-cell>
+          <p> {{ HOMEWORK_TYPE_LABELS[row.type]}} </p>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="url">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Файл</th>
+        <td *matCellDef="let row" mat-cell>
+          <a
+            [href]="'https://localhost:7189/static/Homeworks/' + row.url"
+            target="_blank">Перейти</a>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell style="width: 20%">Дії</th>
+        <td *matCellDef="let row" mat-cell>
+          <button (click)="edit(row)" color="accent" mat-icon-button matTooltip="Редагувати">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="delete(row.id)" *ngIf="!row.isDeleted" color="warn"
+                  mat-icon-button matTooltip="Видалити">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   aria-label="Select page of periodic elements"
+                   showFirstLastButtons>
+    </mat-paginator>
+  </div>

@@ -25,6 +25,7 @@ namespace backend.API.Controllers
         [HttpPost("create-homework")]
         public async Task<ActionResult> CreateHomeworkAsync([FromForm]CreateHomeworkDto entity)
         {
+            entity.CreatedById = User.Identity.Name;
             await _homeworkService.CreateHomeworkAsync(entity);
 
             return Ok();

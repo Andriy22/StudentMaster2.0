@@ -3,11 +3,14 @@
     "",
     "\\backend",
     "\\backend\\backend.API",
-    "\\backend\\backend.API\\Controllers",
-    "\\backend\\BLL",
-    "\\backend\\BLL\\Services",
-    "\\backend\\BLL\\Services\\Implementation"
+    "\\backend\\DAL",
+    "\\backend\\DAL\\Interfaces",
+    "\\frontend",
+    "\\frontend\\src",
+    "\\frontend\\src\\app",
+    "\\frontend\\src\\app\\core",
+    "\\frontend\\src\\app\\core\\authentication"
   ],
-  "SelectedNode": "\\backend\\BLL\\Services\\Implementation\\EducationMaterialService.cs",
+  "SelectedNode": "\\backend\\backend.API\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

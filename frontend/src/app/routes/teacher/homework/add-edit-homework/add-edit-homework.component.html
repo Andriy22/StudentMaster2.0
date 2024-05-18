@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Додавання/редагування завдання</h2>
+<div mat-dialog-content>
+  <mat-stepper [linear]="isLinear">
+    <mat-step [stepControl]="firstFormGroup" label="Налаштування">
+      <form [formGroup]="firstFormGroup">
+        <mat-form-field appearance="fill" class="col-12">
+          <input formControlName="title" matInput placeholder="Введіть назву роботи" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Оберіть тип</mat-label>
+          <mat-select formControlName="type">
+            <mat-option value="0">Лабораторна робота</mat-option>
+            <mat-option value="1">Домашня робота</mat-option>
+            <mat-option value="2">Презентація</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-12">
+          <textarea formControlName="description" matInput placeholder="Опис" required> </textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-12">
+          <input formControlName="maxGrade" matInput placeholder="Максимальна оцінка" required type="number">
+        </mat-form-field>
+        <div class="col-12">
+          <button (click)="fileInput.click()" mat-raised-button type="button">Оберіть файл</button>
+          <input #fileInput (change)="upload($event)" hidden type="file">
+        </div>
+
+        <div>
+          <button (click)="dialogRef.close();" mat-button>Вийти</button>
+          <button (click)="onSubmit()" [disabled]="firstFormGroup.invalid" mat-button>Зберегти</button>
+        </div>
+      </form>
+    </mat-step>
+
+  </mat-stepper>
+</div>

@@ -39,10 +39,10 @@ namespace backend.BLL.Services.Implementation
                 CreatedById = dto.CreatedById,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                Attachment = new Attachment
+                Attachment = dto.File != null ? new Attachment
                 {
                     Path = dto.File != null ? await _fileService.SaveFile(dto.File, FileConstants.HomeworksFolder) : null
-                }
+                } : null,
             };
 
             _homeworksRepo.Add(homework);

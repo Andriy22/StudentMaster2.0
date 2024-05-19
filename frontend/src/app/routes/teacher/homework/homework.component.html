@@ -43,13 +43,17 @@
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Файл</th>
         <td *matCellDef="let row" mat-cell>
           <a
-            [href]="'https://localhost:7189/static/Homeworks/' + row.url"
-            target="_blank">Перейти</a>
+            [href]="'https://localhost:7189/static/Homeworks/' + row.filePath"
+            target="_blank">Завантажити</a>
         </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th *matHeaderCellDef mat-header-cell style="width: 20%">Дії</th>
         <td *matCellDef="let row" mat-cell>
+          <button [routerLink]="'/teacher/homework-item/' + row.id" color="primary" mat-icon-button
+                  matTooltip="Перейти">
+            <mat-icon>home</mat-icon>
+          </button>
           <button (click)="edit(row)" color="accent" mat-icon-button matTooltip="Редагувати">
             <mat-icon>edit</mat-icon>
           </button>
@@ -64,7 +68,7 @@
       </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                   aria-label="Select page of periodic elements"
+                   aria-label="Select page of elements"
                    showFirstLastButtons>
     </mat-paginator>
   </div>

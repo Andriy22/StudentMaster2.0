@@ -150,6 +150,7 @@ builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IHomeworkService, HomeworkService>();
 builder.Services.AddScoped<IEducationMaterialService, EducationMaterialService>();
+builder.Services.AddSingleton<ITestService, TestService>();
 
 var app = builder.Build();
 

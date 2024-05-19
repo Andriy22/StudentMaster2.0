@@ -6,6 +6,7 @@ import { TeacherDashboardComponent } from './dashboard/dashboard.component';
 import { TeacherScheduleComponent } from './schedule/schedule.component';
 import { TeacherMaterialsComponent } from './materials/materials.component';
 import { TeacherHomeworkComponent } from './homework/homework.component';
+import { TeacherHomeworkItemComponent } from './homework-item/homework-item.component';
 
 const routes: Routes = [
   { path: '', component: TeacherDashboardComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'schedule', component: TeacherScheduleComponent },
   { path: 'materials', component: TeacherMaterialsComponent },
   { path: 'homework', component: TeacherHomeworkComponent },
+  { path: 'homework-item/:id', component: TeacherHomeworkItemComponent },
 ];
 
 @NgModule({

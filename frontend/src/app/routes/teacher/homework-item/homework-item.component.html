@@ -1,0 +1,85 @@
+<div *ngIf="homework" class="homework-detail-container">
+  <mat-card class="homework-detail-card">
+    <mat-card-header>
+      <mat-card-title>{{ homework.title }}</mat-card-title>
+      <mat-card-subtitle>{{ HOMEWORK_TYPE_LABELS[homework.type] }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ homework?.description }}</p>
+      <mat-divider></mat-divider>
+      <mat-list>
+        <mat-list-item>Максимальна оцінка: {{ homework?.maxGrade }}</mat-list-item>
+        <mat-list-item>Створено: {{ homework?.createdAt | date }}</mat-list-item>
+        <mat-list-item *ngIf="homework?.deadline">Термін здачі: {{ homework.deadline | date }}</mat-list-item>
+        <mat-list-item *ngIf="homework?.updatedAt">Оновлено: {{ homework.updatedAt | date }}</mat-list-item>
+        <mat-list-item *ngIf="homework?.filePath">Файл: <a
+          [href]="'https://localhost:7189/static/Homeworks/' + homework?.filePath"
+          mat-raised-button>Завантажити</a>
+        </mat-list-item>
+      </mat-list>
+      <mat-divider></mat-divider>
+      <div class="container-fluid mat-elevation-z8">
+        <div class="row">
+          <mat-form-field class="col-4">
+            <mat-label>Пошук</mat-label>
+            <input (keyup)="applyFilter($event)" class="8" matInput placeholder="Пошук...">
+          </mat-form-field>
+        </div>
+        <br>
+        <table [dataSource]="dataSource" mat-table matSort>
+          <ng-container matColumnDef="ownerName">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Оцінено</th>
+            <td *matCellDef="let row" mat-cell>
+              {{ row.ownerName || '---' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Статус</th>
+            <td *matCellDef="let row" mat-cell>
+              <p> {{ HOMEWORK_STATUS_LABELS[row.status] }} </p>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="filePath">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Файл</th>
+            <td *matCellDef="let row" mat-cell>
+              <a
+                [href]="'https://localhost:7189/static/Homeworks/' + row.filePath"
+                target="_blank">Завантажити</a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="comment">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Коментарій</th>
+            <td *matCellDef="let row" mat-cell>
+              <p> {{ row.comment || '---' }} </p>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="mark">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Оцінка</th>
+            <td *matCellDef="let row" mat-cell>
+              <p> {{ row.grade || '---' }} / {{ homework?.maxGrade }} </p>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell style="width: 20%">Дії</th>
+            <td *matCellDef="let row" mat-cell>
+              <button (click)="edit(row)" color="accent" mat-icon-button matTooltip="Оцінити">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                       aria-label="Select page of elements"
+                       showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button [routerLink]="'/teacher/group/'+homework.groupId" color="accent" mat-button>Назад</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

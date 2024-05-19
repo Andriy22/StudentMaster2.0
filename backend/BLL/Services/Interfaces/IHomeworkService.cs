@@ -10,5 +10,10 @@ namespace backend.BLL.Services.Interfaces
         Task CreateHomeworkAsync(CreateHomeworkDto dto);
         Task UpdateHomeworkAsync(UpdateHomeworkDto dto);
         Task DeleteHomeworkAsync(int homeworkId);
+        Task SendHomeworkToReviewAsync(SendHomeworkToReviewDto dto);
+        Task<List<HomeworkStudentViewModel>> GetHomeworkStudentAsync(int homeworkId, string studentId);
+        Task<List<HomeworkStudentViewModel>> GetHomeworksForReviewAsync(int homeworkId);
+        Task ReviewHomeworkAsync(ReviewHomeworkDto dto);
+        Task CancelHomeworkToReview(int id, string studentId);
     }
 }

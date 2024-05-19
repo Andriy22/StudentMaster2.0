@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Оцінювання завдання</h2>
+<div mat-dialog-content>
+  <div class="row">
+    <mat-list class="col-md-6 col-12">
+      <mat-list-item>Максимальна оцінка: {{ homework?.maxGrade }}</mat-list-item>
+      <mat-list-item>Створено: {{ homework?.createdAt | date }}</mat-list-item>
+      <mat-list-item *ngIf="homework?.deadline">Термін здачі: {{ homework?.deadline | date }}</mat-list-item>
+      <mat-list-item *ngIf="homework?.filePath">Файл: <a
+        [href]="'https://localhost:7189/static/Homeworks/' + homework?.filePath"
+        mat-raised-button>Завантажити</a>
+      </mat-list-item>
+    </mat-list>
+    <mat-divider></mat-divider>
+    <mat-list class="col-md-6 col-12">
+      <mat-list-item>Студент: {{ item?.ownerName }}</mat-list-item>
+      <mat-list-item>Здано: {{ item?.createdAt | date }}</mat-list-item>
+      <mat-list-item *ngIf="item?.filePath">Файл: <a
+        [href]="'https://localhost:7189/static/Homeworks/' + item?.filePath"
+        mat-raised-button>Завантажити</a>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-stepper [linear]="true">
+    <mat-step [stepControl]="firstFormGroup" label="Оцінювання завдання">
+      <form [formGroup]="firstFormGroup">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Оберіть тип</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="2">{{ HOMEWORK_STATUS_LABELS[2] }}</mat-option>
+            <mat-option value="3">{{ HOMEWORK_STATUS_LABELS[3] }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-12">
+          <textarea formControlName="comment" matInput placeholder="Коментар"> </textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-12">
+          <input formControlName="mark" matInput placeholder="Оцінка" type="number">
+        </mat-form-field>
+        <div>
+          <button (click)="dialogRef.close();" mat-button>Вийти</button>
+          <button (click)="onSubmit()" [disabled]="firstFormGroup.invalid" mat-button>Зберегти</button>
+        </div>
+      </form>
+    </mat-step>
+
+  </mat-stepper>
+</div>

@@ -12,6 +12,28 @@
       }
     },
     {
+      "route": "/student/materials",
+      "name": "materials",
+      "type": "link",
+      "icon": "list",
+      "permissions": {
+        "only": [
+          "Student"
+        ]
+      }
+    },
+    {
+      "route": "/student/homeworks",
+      "name": "homeworks",
+      "type": "link",
+      "icon": "work_outline",
+      "permissions": {
+        "only": [
+          "Student"
+        ]
+      }
+    },
+    {
       "route": "/student/schedule",
       "name": "schedule",
       "type": "link",
@@ -27,17 +49,6 @@
       "name": "chats",
       "type": "link",
       "icon": "message",
-      "permissions": {
-        "only": [
-          "Student"
-        ]
-      }
-    },
-    {
-      "route": "/student/materials",
-      "name": "materials",
-      "type": "link",
-      "icon": "list",
       "permissions": {
         "only": [
           "Student"

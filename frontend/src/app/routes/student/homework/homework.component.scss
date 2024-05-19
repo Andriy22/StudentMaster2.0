@@ -1,0 +1,14 @@
+.homework-detail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homework-detail-card {
+  width: 100%;
+  margin: 20px;
+}
+
+mat-card-content {
+  padding: 10px;
+}

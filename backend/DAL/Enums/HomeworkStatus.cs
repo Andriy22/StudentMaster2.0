@@ -2,8 +2,8 @@
 {
     public enum HomeworkStatus
     {
-        NotStarted = 0,
-        InReview = 1,
+        InReview = 0,
+        Canceled = 1,
         Done = 2,
         Rejected = 3,
     }
